@@ -1,0 +1,23 @@
+import * as React from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import LoginScreen from './Login';
+import firebase from 'firebase/compat/app'
+import 'firebase/compat/auth'
+import RegisterScreen from './Register';
+
+export interface IAuthStackInterface { }
+
+const AuthStack = createNativeStackNavigator();
+
+const AuthStackScreen: React.FC<IAuthStackInterface> = (props) => {
+
+  return (
+    <AuthStack.Navigator screenOptions={{ headerShown: false }}>
+      <AuthStack.Screen name='Login' component={LoginScreen}></AuthStack.Screen>
+      <AuthStack.Screen name="Register" component={RegisterScreen}></AuthStack.Screen>
+    </AuthStack.Navigator>
+  )
+}
+
+export default AuthStackScreen;

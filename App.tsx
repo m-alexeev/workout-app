@@ -1,14 +1,52 @@
-import { StatusBar } from 'expo-status-bar';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from "@react-navigation/native"
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { firebaseConfig } from './config';
+import firebase from 'firebase/compat/app'
+import 'firebase/compat/auth'
+import { useFonts } from 'expo-font';
+import { type } from './src/theme/fonts';
 
-export default function App() {
+import AuthStackScreen from './src/screens/auth';
+import LoadingScreen from './src/screens/misc/Loading';
+import MainStackScreen from './src/screens/misc';
+
+import { RootStackParamList } from './src/types/navigation';
+import ThemeProvider from './src/contexts/theme';
+
+export interface IAppProps { }
+
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
+
+firebase.initializeApp(firebaseConfig)
+
+const App: React.FC<IAppProps> = (props) => {
+  const [isLoading, setLoading] = useState(true);
+  let [fontsLoaded] = useFonts(type);
+
+  if (isLoading || !fontsLoaded) {
+    return (
+      <LoadingScreen setLoading={setLoading} />
+    )
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <ThemeProvider>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          {firebase.auth().currentUser ?
+            <Stack.Screen name='MainStackRoute' component={MainStackScreen} />
+            :
+            <Stack.Screen name='AuthStackRoute' component={AuthStackScreen} />
+          }
+        </Stack.Navigator>
+      </NavigationContainer>
+    </ThemeProvider>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -18,3 +56,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default App;
