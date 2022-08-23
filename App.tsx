@@ -7,54 +7,44 @@ import firebase from 'firebase/compat/app'
 import 'firebase/compat/auth'
 import { useFonts } from 'expo-font';
 import { type } from './src/theme/fonts';
-
 import AuthStackScreen from './src/screens/auth';
-import LoadingScreen from './src/screens/misc/Loading';
-import MainStackScreen from './src/screens/misc';
-
+import LoadingScreen from './src/screens/main/Loading';
+import MainStackScreen from './src/screens/main';
 import { RootStackParamList } from './src/types/navigation';
 import ThemeProvider from './src/contexts/theme';
 
 export interface IAppProps { }
 
-
-const Stack = createNativeStackNavigator<RootStackParamList>();
+const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 firebase.initializeApp(firebaseConfig)
 
 const App: React.FC<IAppProps> = (props) => {
   const [isLoading, setLoading] = useState(true);
+  const [isSignedIn, setSignedIn] = useState(false);
   let [fontsLoaded] = useFonts(type);
+
 
   if (isLoading || !fontsLoaded) {
     return (
-      <LoadingScreen setLoading={setLoading} />
+      <LoadingScreen setLoading={setLoading} setSignedIn={setSignedIn} />
     )
-  }
+  }  
 
   return (
     <ThemeProvider>
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          {firebase.auth().currentUser ?
-            <Stack.Screen name='MainStackRoute' component={MainStackScreen} />
+        <RootStack.Navigator screenOptions={{ headerShown: false }}>
+          {isSignedIn ? 
+            <RootStack.Screen name='MainStackRoute' component={MainStackScreen}/>
             :
-            <Stack.Screen name='AuthStackRoute' component={AuthStackScreen} />
+            <RootStack.Screen name='AuthStackRoute' component={AuthStackScreen}/>
           }
-        </Stack.Navigator>
+        </RootStack.Navigator>
       </NavigationContainer>
     </ThemeProvider>
   );
 }
 
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
 
 export default App;

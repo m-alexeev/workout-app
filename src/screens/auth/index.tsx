@@ -2,8 +2,6 @@ import * as React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import LoginScreen from './Login';
-import firebase from 'firebase/compat/app'
-import 'firebase/compat/auth'
 import RegisterScreen from './Register';
 
 export interface IAuthStackInterface { }

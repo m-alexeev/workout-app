@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Keyboard, StyleSheet } from 'react-native';
+import { View,  Keyboard, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Button_C from '../../components/atoms/Button_C';
 import CustomInputText from '../../components/atoms/CustomInputText';
@@ -7,20 +7,26 @@ import CustomText from '../../components/atoms/CustomText';
 import LinkText from '../../components/atoms/LinkText';
 import SocialButton from '../../components/atoms/SocialButton';
 import { useTheme } from '../../contexts/theme';
-import { AuthScreenNavigationProp } from '../../types/navigation';
-import firebase from 'firebase/compat';
+import firebase from 'firebase/compat/app';
 import "firebase/compat/auth";
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { AuthStackParamList, RootStackParamList } from '../../types/navigation';
+import { CompositeNavigationProp } from '@react-navigation/native';
 
-export interface ILoginScreenProps {
-	navigation: AuthScreenNavigationProp
-}
+type LoginScreenNavProp = CompositeNavigationProp<
+	NativeStackNavigationProp<RootStackParamList, "AuthStackRoute">,
+	NativeStackNavigationProp<AuthStackParamList, "Login">
+>;
+
+export interface ILoginScreenProps  {
+	navigation: LoginScreenNavProp
+};
 
 const LoginScreen: React.FC<ILoginScreenProps> = ({ navigation }) => {
 	const { theme } = useTheme();
 	const [inputs, setInputs] = useState({ 'email': '', 'password': '' })
 	const [errors, setErrors] = useState({ 'email': undefined, 'password': undefined });
 	const [loading, setLoading] = useState(false);
-
 
 	const validate = (): boolean => {
 		Keyboard.dismiss();
@@ -54,9 +60,7 @@ const LoginScreen: React.FC<ILoginScreenProps> = ({ navigation }) => {
 			setLoading(true);
 			//Login
 			firebase.auth().signInWithEmailAndPassword(inputs.email, inputs.password).then((user) => {
-				if (user){
-					navigation.navigate("Home");
-				}
+				// Save user to local storage ? 
 			}).catch((error) => {
 				console.log(error);
 				console.log(error.code);

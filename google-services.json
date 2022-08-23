@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "755490275970",
+    "firebase_url": "https://workout-2531c-default-rtdb.firebaseio.com",
+    "project_id": "workout-2531c",
+    "storage_bucket": "workout-2531c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:755490275970:android:41bdc05edb69777570aa9b",
+        "android_client_info": {
+          "package_name": "com.bouncyknight.workout"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "755490275970-02pn81nefr4brsfsj6ggjs93subdgt2g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bouncyknight.workout",
+            "certificate_hash": "351422165cf3f87149d69e0e1d8a174fc6a4a7a4"
+          }
+        },
+        {
+          "client_id": "755490275970-3uaac0dck30bvpi9f6n5uu380gvjcsdt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfS75gzIyP9Q-G5sdMYPn-S-EmOcbY6qM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "755490275970-3uaac0dck30bvpi9f6n5uu380gvjcsdt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
