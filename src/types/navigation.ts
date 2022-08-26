@@ -8,7 +8,9 @@ Navigation Map
   + Main (Tab Navigator)
     - Home      (Screen)
     - Profile   (Screen)
-    - Exercises (Screen)
+    - Exercises (Stack)
+      - Exercises (Screen)
+      - Details   (Screen)
     - History   (Screen)
   + Auth (Stack Navigator)
     - Login     (Screen)
@@ -27,9 +29,15 @@ export type RootStackParamList = {
 export type MainBottomTabParamList = {
   Home: undefined,
   Profile: undefined,
-  Exercises: undefined,
+  ExercisesStack: undefined,
+  Statistics: undefined,
+  Workout: undefined,
 }
 
+export type ExercisesStackParamList = {
+  Exercises: NavigatorScreenParams<MainBottomTabParamList>,
+  ExerciseDetails: {exerciseId: string},
+}
 
 export type AuthStackParamList  = {
   Login: undefined, 

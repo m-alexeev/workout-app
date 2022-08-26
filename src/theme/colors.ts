@@ -11,7 +11,6 @@ interface IThemeInterface {
   error: string
   text_primary:string
   text_secondary: string,
-  
 }
 
 const CustomDarkTheme: IThemeInterface = {
