@@ -10,7 +10,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 type ExercisesScreenProp = NativeStackScreenProps<
   ExercisesStackParamList,
-  "Exercises"
+  "ExerciseList"
 >;
 
 export interface IExercisesPageProps {

@@ -38,10 +38,9 @@ const MainStackScreen: React.FC<IMainStackInterface> = (props) => {
         }}
       />
         <MainBottomTabs.Screen
-          name="ExercisesStack"
+          name="Exercises"
           component={ExerciseScreenStack}
           options={{
-          
             tabBarIcon: ({ color, size }) => (
               <Icon color={color} size={size} name="dumbbell" />
             ),

@@ -15,7 +15,7 @@ const ExerciseScreenStack: React.FC<IExerciseScreenStackProps> = (props) => {
 
   return (
     <ExerciseStack.Navigator>
-      <ExerciseStack.Screen name="Exercises" component={ExercisesPage}
+      <ExerciseStack.Screen name="ExerciseList" component={ExercisesPage}
         options={{
           header: (props) => <TitleBar title="Exercises" {...props}/>
         }}

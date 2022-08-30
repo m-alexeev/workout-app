@@ -29,13 +29,13 @@ export type RootStackParamList = {
 export type MainBottomTabParamList = {
   Home: undefined,
   Profile: undefined,
-  ExercisesStack: undefined,
+  Exercises: undefined,
   Statistics: undefined,
   Workout: undefined,
 }
 
 export type ExercisesStackParamList = {
-  Exercises: NavigatorScreenParams<MainBottomTabParamList>,
+  ExerciseList: NavigatorScreenParams<MainBottomTabParamList>,
   ExerciseDetails: {exerciseId: string},
 }
 
