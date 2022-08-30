@@ -1,11 +1,10 @@
 import React from "react";
 import { ButtonProps, StyleSheet, TouchableOpacity } from "react-native";
-import Icon  from 'react-native-vector-icons/FontAwesome5';
 import { useTheme } from "../../contexts/theme";
-
+import { FontAwesome } from "@expo/vector-icons";
 
 export interface IIconButtonProps extends Omit<ButtonProps, "title"> {
-  iconName: string,
+  iconName: keyof typeof FontAwesome.glyphMap,
   size?: number,
   color?: string,
 }
@@ -15,8 +14,8 @@ const IconButton: React.FC<IIconButtonProps> = ({iconName, size, color, ...props
   let iconColor = color ? color: theme.text_primary; 
 
   return (
-    <TouchableOpacity style={styles.container}  {...props}>
-      <Icon name={iconName} color={iconColor} size={size}></Icon>
+    <TouchableOpacity style={styles.container} {...props}>
+      <FontAwesome name={iconName} color={iconColor} size={size}></FontAwesome>
     </TouchableOpacity>
   )
 }

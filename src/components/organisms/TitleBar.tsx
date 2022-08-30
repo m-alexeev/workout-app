@@ -11,20 +11,33 @@ export interface ITitleBarProps extends NativeStackHeaderProps {
   search?: boolean;
 }
 
-const TitleBar: React.FC<ITitleBarProps> = ({ title, optionsMenu, search, ...props }) => {
+const TitleBar: React.FC<ITitleBarProps> = ({
+  title,
+  optionsMenu,
+  search,
+  ...props
+}) => {
   const { theme } = useTheme();
-
+  const navigation = props.navigation;
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
+      {props.back && (
+        <IconButton
+          iconName="arrow-left"
+          color={theme.text_primary}
+          size={16}
+          onPress={() => navigation.goBack()}
+        />
+      )}
       <CustomText style={[styles.title, { color: theme.text_primary }]}>
         {title}
       </CustomText>
       <View style={styles.icons}>
-        {!optionsMenu && (
-          <IconButton iconName="gears" color={theme.text_primary} />
+        {search && (
+          <IconButton iconName="search" color={theme.text_primary} size={16} />
         )}
-        {!search && (
-          <IconButton iconName="magnifying-glass" color={theme.text_primary} />
+        {optionsMenu && (
+          <IconButton iconName="gear" color={theme.text_primary} size={16} />
         )}
       </View>
     </View>
@@ -34,11 +47,15 @@ const TitleBar: React.FC<ITitleBarProps> = ({ title, optionsMenu, search, ...pro
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingVertical: 10,
-    justifyContent: 'space-between'
+    justifyContent: "space-between",
   },
-  icons: {},
+  icons: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "flex-end",
+  },
   title: {},
 });
 

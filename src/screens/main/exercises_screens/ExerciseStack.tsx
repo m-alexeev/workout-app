@@ -17,12 +17,15 @@ const ExerciseScreenStack: React.FC<IExerciseScreenStackProps> = (props) => {
     <ExerciseStack.Navigator>
       <ExerciseStack.Screen name="ExerciseList" component={ExercisesPage}
         options={{
-          header: (props) => <TitleBar title="Exercises" {...props}/>
+          header: (props) => <TitleBar title="Exercises" {...props} search/>
         }}
       />
       <ExerciseStack.Screen
         name="ExerciseDetails"
         component={ExerciseDetails}
+        options={{
+          header: (props) => <TitleBar title="Details" {...props}/>
+        }}
       />
     </ExerciseStack.Navigator>
   );
