@@ -3,6 +3,7 @@ import React from "react";
 import TitleBar from "../../../components/organisms/TitleBar";
 import { useTheme } from "../../../contexts/theme";
 import { ExercisesStackParamList } from "../../../types/navigation";
+import ExerciseDetailsScreenStack from "./details/DetailsStack";
 import ExerciseDetails from "./ExerciseDetails";
 import ExercisesPage from "./Exercises";
 
@@ -22,7 +23,7 @@ const ExerciseScreenStack: React.FC<IExerciseScreenStackProps> = (props) => {
       />
       <ExerciseStack.Screen
         name="ExerciseDetails"
-        component={ExerciseDetails}
+        component={ExerciseDetailsScreenStack}
         options={{
           header: (props) => <TitleBar title="Details" {...props}/>
         }}

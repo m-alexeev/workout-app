@@ -10,7 +10,11 @@ Navigation Map
     - Profile   (Screen)
     - Exercises (Stack)
       - Exercises (Screen)
-      - Details   (Screen)
+      - Details   (Tabs)
+        - About 
+        - History
+        - Charts
+        - Records
     - History   (Screen)
   + Auth (Stack Navigator)
     - Login     (Screen)
@@ -38,6 +42,14 @@ export type ExercisesStackParamList = {
   ExerciseList: NavigatorScreenParams<MainBottomTabParamList>,
   ExerciseDetails: {exerciseId: string},
 }
+
+export type ExerciseDetailsParamList = {
+  About: undefined, 
+  History: undefined,
+  Charts: undefined,
+  Records: undefined,
+};
+
 
 export type AuthStackParamList  = {
   Login: undefined, 
