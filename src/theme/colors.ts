@@ -19,7 +19,7 @@ const CustomDarkTheme: IThemeInterface = {
     primary_var: '#3700B3',
     secondary: "#03DAC6",
     background: '#121212',
-    surface: "#121212",
+    surface: "#454545",
     error: "#CF6679",
     text_primary: "#FFF",
     text_secondary: "#AAA",

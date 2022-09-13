@@ -14,7 +14,7 @@ type ExercisesScreenProp = NativeStackScreenProps<
 >;
 
 export interface IExercisesPageProps {
-  navigation: ExercisesScreenProp['navigation'];
+  navigation: ExercisesScreenProp["navigation"];
 }
 
 const ExercisesPage: React.FC<IExercisesPageProps> = ({ navigation }) => {
@@ -36,15 +36,22 @@ const ExercisesPage: React.FC<IExercisesPageProps> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }}>
-      <CustomText style={[styles.header, { color: theme.text_primary }]}>
-        Exercises
-      </CustomText>
+      {/*  */}
       <SectionList
         sections={get_sections()}
         keyExtractor={(item, index) => item.getName() + index}
+        ListHeaderComponent={() => (
+          <CustomText style={[styles.header, { color: theme.text_primary }]}>
+            Exercises
+          </CustomText>
+        )}
         renderItem={({ item }) => (
           <ExerciseCard
-            onPress={() => navigation.navigate('ExerciseDetails', {exerciseId: item.getName()})}
+            onPress={() =>
+              navigation.navigate("ExerciseDetails", {
+                exerciseId: item.getName(),
+              })
+            }
             name={item.getName()}
             type={item.getType()}
             muscleGroup={item.getMuscleGroup()}

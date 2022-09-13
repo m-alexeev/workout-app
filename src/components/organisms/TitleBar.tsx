@@ -1,14 +1,15 @@
 import { NativeStackHeaderProps } from "@react-navigation/native-stack";
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { useTheme } from "../../contexts/theme";
+import CustomInputText from "../atoms/CustomInputText";
 import CustomText from "../atoms/CustomText";
 import IconButton from "../atoms/IconButton";
 
 export interface ITitleBarProps extends NativeStackHeaderProps {
   title: string;
-  optionsMenu?: boolean;
   search?: boolean;
+  optionsMenu?: any;
 }
 
 const TitleBar: React.FC<ITitleBarProps> = ({
@@ -19,10 +20,18 @@ const TitleBar: React.FC<ITitleBarProps> = ({
 }) => {
   const { theme } = useTheme();
   const navigation = props.navigation;
+
+  const [showSearchBar, setShowSearchBar] = useState<boolean>(false);
+
   return (
-    <View style={[styles.container, { backgroundColor: theme.background }]}>
+    <View style={[styles.container, { backgroundColor: theme.surface }]}>
       {props.back && (
         <IconButton
+          style={{
+            justifyContent: "center",
+            marginVertical: "auto",
+            marginRight: 5,
+          }}
           iconName="arrow-left"
           color={theme.text_primary}
           size={16}
@@ -32,13 +41,18 @@ const TitleBar: React.FC<ITitleBarProps> = ({
       <CustomText style={[styles.title, { color: theme.text_primary }]}>
         {title}
       </CustomText>
-      <View style={styles.icons}>
-        {search && (
-          <IconButton iconName="search" color={theme.text_primary} size={16} />
-        )}
-        {optionsMenu && (
-          <IconButton iconName="gear" color={theme.text_primary} size={16} />
-        )}
+      <View>{showSearchBar && <CustomInputText />}</View>
+      <View style={styles.icons_container}>
+        <View style={styles.icons}>
+          {search && (
+            <IconButton
+              size={16}
+              iconName="search"
+              onPress={() => setShowSearchBar(!showSearchBar)}
+            />
+          )}
+          {optionsMenu}
+        </View>
       </View>
     </View>
   );
@@ -50,13 +64,21 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingVertical: 10,
     justifyContent: "space-between",
+    padding: 10,
+  },
+  icons_container: {
+    justifyContent: 'flex-end',
+    marginVertical: "auto",
   },
   icons: {
-    flex: 1,
     flexDirection: "row",
-    justifyContent: "flex-end",
+    justifyContent: "space-between",
   },
-  title: {},
+  title: {
+    fontSize: 20,
+    marginVertical: "auto",
+    justifyContent: "center",
+  },
 });
 
 export default TitleBar;

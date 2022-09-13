@@ -17,6 +17,7 @@ const MainStackScreen: React.FC<IMainStackInterface> = (props) => {
 
   return (
     <MainBottomTabs.Navigator
+      initialRouteName="Exercises"
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: theme.primary,
