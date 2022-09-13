@@ -2,7 +2,7 @@ import React, {createContext, FC, ReactNode, useContext, useState} from 'react';
 
 
 export interface ISearchContextInterface {
-  search: string,
+  searchQuery: string,
   updateSearch: (query: string) => void
 }
 
@@ -13,14 +13,14 @@ interface SearchProps {
 const SearchContext = createContext<ISearchContextInterface | null>(null);
 
 const SearchProvider: FC<SearchProps> = ({children}) => {
-  const [search, setSearch] = useState<string>("");
+  const [searchQuery, setSearch] = useState<string>("");
 
   const updateSearch = (newQuery: string) => {
     setSearch(newQuery);
   };
 
   return (
-    <SearchContext.Provider value={{search, updateSearch}}>
+    <SearchContext.Provider value={{searchQuery, updateSearch}}>
       {children}
     </SearchContext.Provider>
   )

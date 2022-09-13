@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, {useEffect} from 'react';
 import { SafeAreaView, SectionList, StyleSheet } from "react-native";
 import { ExercisesStackParamList } from "../../../types/navigation";
 import { exercise_list } from "../../../models/exercise_list";
@@ -7,6 +7,7 @@ import { useTheme } from "../../../contexts/theme";
 import { Exercise } from "../../../models/exercise";
 import CustomText from "../../../components/atoms/CustomText";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { useSearch } from "../../../contexts/search";
 
 type ExercisesScreenProp = NativeStackScreenProps<
   ExercisesStackParamList,
@@ -18,6 +19,7 @@ export interface IExercisesPageProps {
 }
 
 const ExercisesPage: React.FC<IExercisesPageProps> = ({ navigation }) => {
+  const { searchQuery } = useSearch();
   const { theme } = useTheme();
   //format exercise_list
   const get_sections = () => {
@@ -33,6 +35,10 @@ const ExercisesPage: React.FC<IExercisesPageProps> = ({ navigation }) => {
       }, {} as { [letter: string]: { title: string; data: Array<Exercise> } })
     );
   };
+
+  useEffect(() => {
+    console.log(searchQuery);
+  }, [searchQuery]);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }}>

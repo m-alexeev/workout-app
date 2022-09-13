@@ -1,6 +1,7 @@
 import { NativeStackHeaderProps } from "@react-navigation/native-stack";
 import React, { useState } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { useSearch } from "../../contexts/search";
 import { useTheme } from "../../contexts/theme";
 import CustomInputText from "../atoms/CustomInputText";
 import CustomText from "../atoms/CustomText";
@@ -19,9 +20,11 @@ const TitleBar: React.FC<ITitleBarProps> = ({
   ...props
 }) => {
   const { theme } = useTheme();
+  const {searchQuery, updateSearch} = useSearch();
   const navigation = props.navigation;
 
   const [showSearchBar, setShowSearchBar] = useState<boolean>(false);
+
 
   return (
     <View style={[styles.container, { backgroundColor: theme.surface }]}>
@@ -41,13 +44,13 @@ const TitleBar: React.FC<ITitleBarProps> = ({
       <CustomText style={[styles.title, { color: theme.text_primary }]}>
         {title}
       </CustomText>
-      <View>{showSearchBar && <CustomInputText />}</View>
+      <View>{showSearchBar && <CustomInputText onChangeText={(text) => updateSearch(text)} />}</View>
       <View style={styles.icons_container}>
         <View style={styles.icons}>
           {search && (
             <IconButton
               size={16}
-              iconName="search"
+              iconName={showSearchBar ? "close" : 'search'}
               onPress={() => setShowSearchBar(!showSearchBar)}
             />
           )}
