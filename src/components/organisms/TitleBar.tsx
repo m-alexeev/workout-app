@@ -6,6 +6,7 @@ import { useTheme } from "../../contexts/theme";
 import CustomInputText from "../atoms/CustomInputText";
 import CustomText from "../atoms/CustomText";
 import IconButton from "../atoms/IconButton";
+import SearchBarInput from "../atoms/SeachBarInput";
 
 export interface ITitleBarProps extends NativeStackHeaderProps {
   title: string;
@@ -44,7 +45,7 @@ const TitleBar: React.FC<ITitleBarProps> = ({
       <CustomText style={[styles.title, { color: theme.text_primary }]}>
         {title}
       </CustomText>
-      <View>{showSearchBar && <CustomInputText onChangeText={(text) => updateSearch(text)} />}</View>
+      <View>{showSearchBar && <SearchBarInput onCancel={() => updateSearch("")} onChangeText={(text) => updateSearch(text)} />}</View>
       <View style={styles.icons_container}>
         <View style={styles.icons}>
           {search && (

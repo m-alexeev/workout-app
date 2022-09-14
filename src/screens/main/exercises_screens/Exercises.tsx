@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect, useState } from "react";
 import { SafeAreaView, SectionList, StyleSheet } from "react-native";
 import { ExercisesStackParamList } from "../../../types/navigation";
 import { exercise_list } from "../../../models/exercise_list";
@@ -18,39 +18,61 @@ export interface IExercisesPageProps {
   navigation: ExercisesScreenProp["navigation"];
 }
 
+const get_sections = (list: Array<Exercise>) => {
+  return Object.values(
+    list.reduce((acc, obj) => {
+      const firstLet = obj.getName()[0].toLocaleUpperCase();
+      if (!acc[firstLet]) {
+        acc[firstLet] = { title: firstLet, data: [obj] };
+      } else {
+        acc[firstLet].data.push(obj);
+      }
+      return acc;
+    }, {} as { [letter: string]: { title: string; data: Array<Exercise> } })
+  );
+};
+
 const ExercisesPage: React.FC<IExercisesPageProps> = ({ navigation }) => {
   const { searchQuery } = useSearch();
   const { theme } = useTheme();
-  //format exercise_list
-  const get_sections = () => {
-    return Object.values(
-      exercise_list.reduce((acc, obj) => {
-        const firstLet = obj.getName()[0].toLocaleUpperCase();
-        if (!acc[firstLet]) {
-          acc[firstLet] = { title: firstLet, data: [obj] };
-        } else {
-          acc[firstLet].data.push(obj);
-        }
-        return acc;
-      }, {} as { [letter: string]: { title: string; data: Array<Exercise> } })
-    );
+  const [filteredExercises, setFilteredExercises] = useState(
+    get_sections(exercise_list)
+  );
+
+  const filter = (query: string) => {
+    if (query) {
+      const filtered = exercise_list.filter((exercise) => {
+        return (
+          exercise.getName().toUpperCase().startsWith(query.toUpperCase()) ||
+          exercise.getType().toUpperCase().startsWith(query.toUpperCase()) ||
+          exercise
+            .getMuscleGroup()
+            .toUpperCase()
+            .startsWith(query.toUpperCase())
+        );
+      });
+      setFilteredExercises(get_sections(filtered));
+    } else {
+      setFilteredExercises(get_sections(exercise_list));
+    }
   };
 
   useEffect(() => {
-    console.log(searchQuery);
+    filter(searchQuery);
   }, [searchQuery]);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }}>
       {/*  */}
       <SectionList
-        sections={get_sections()}
+        sections={filteredExercises}
         keyExtractor={(item, index) => item.getName() + index}
         ListHeaderComponent={() => (
           <CustomText style={[styles.header, { color: theme.text_primary }]}>
             Exercises
           </CustomText>
         )}
+        ListEmptyComponent={() => <CustomText>No Exercises...</CustomText>}
         renderItem={({ item }) => (
           <ExerciseCard
             onPress={() =>
