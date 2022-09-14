@@ -9,6 +9,7 @@ import {
 import IconButton from "./IconButton";
 import CustomText from "./CustomText";
 import { useTheme } from "../../contexts/theme";
+import { useSearch } from "../../contexts/search";
 
 export interface ISearchBarInputProps extends TextInputProps {
   onCancel: () => void;
@@ -22,6 +23,7 @@ const SearchBarInput: React.FC<ISearchBarInputProps> = ({
   ...props
 }) => {
   const { theme } = useTheme();
+  const {updateSearch} = useSearch();
   const [inputText, setInputText] = useState("");
   const [isFocused, setIsFocused] = useState(false);
 
@@ -33,7 +35,10 @@ const SearchBarInput: React.FC<ISearchBarInputProps> = ({
     <View style={styles.container}>
       <TextInput
         onFocus={() => setIsFocused(true)}
-        onChangeText={(text) => setInputText(text)}
+        onChangeText={(text) => {
+          setInputText(text)
+          updateSearch(text);
+        }}
         autoCorrect={true}
         placeholderTextColor={theme.text_secondary}
         placeholder="Search..."

@@ -45,14 +45,17 @@ const TitleBar: React.FC<ITitleBarProps> = ({
       <CustomText style={[styles.title, { color: theme.text_primary }]}>
         {title}
       </CustomText>
-      <View>{showSearchBar && <SearchBarInput onCancel={() => updateSearch("")} onChangeText={(text) => updateSearch(text)} />}</View>
+      <View>{showSearchBar && <SearchBarInput onCancel={() => updateSearch("")}/>}</View>
       <View style={styles.icons_container}>
         <View style={styles.icons}>
           {search && (
             <IconButton
               size={16}
               iconName={showSearchBar ? "close" : 'search'}
-              onPress={() => setShowSearchBar(!showSearchBar)}
+              onPress={() => {
+                setShowSearchBar(!showSearchBar)
+                updateSearch("");
+              }}
             />
           )}
           {optionsMenu}
