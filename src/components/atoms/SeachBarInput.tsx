@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   TextInput,
@@ -23,20 +23,25 @@ const SearchBarInput: React.FC<ISearchBarInputProps> = ({
   ...props
 }) => {
   const { theme } = useTheme();
-  const {updateSearch} = useSearch();
+  const { updateSearch } = useSearch();
   const [inputText, setInputText] = useState("");
   const [isFocused, setIsFocused] = useState(false);
+  const [showIcon, setShowIcon] = useState(false);
 
   const passedStyles = Array.isArray(style)
     ? Object.assign({}, ...style)
     : style;
+
+  useEffect(() => {
+    setShowIcon(!!inputText);
+  }, [inputText]);
 
   return (
     <View style={styles.container}>
       <TextInput
         onFocus={() => setIsFocused(true)}
         onChangeText={(text) => {
-          setInputText(text)
+          setInputText(text);
           updateSearch(text);
         }}
         autoCorrect={true}
@@ -47,16 +52,18 @@ const SearchBarInput: React.FC<ISearchBarInputProps> = ({
         style={[styles.input, passedStyles, { color: theme.text_primary }]}
         value={inputText}
       />
-      <IconButton
-        iconName="close"
-        onPress={() => {
-          onCancel(); 
-          setInputText("");
-        }}
-        color={theme.text_primary}
-        size={18}
-        
-      ></IconButton>
+      {showIcon && (
+        <IconButton
+          iconName="close"
+          onPress={() => {
+            onCancel();
+            setInputText("");
+
+          }}
+          color={theme.text_primary}
+          size={18}
+        ></IconButton>
+      )}
     </View>
   );
 };
@@ -69,6 +76,5 @@ const styles = StyleSheet.create({
   input: {},
   icon: {},
 });
-
 
 export default SearchBarInput;

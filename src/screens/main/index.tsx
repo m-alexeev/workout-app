@@ -7,6 +7,7 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 import { useTheme } from "../../contexts/theme";
 import WorkoutPage from "./Workout";
 import ExerciseScreenStack from "./exercises_screens/ExerciseStack";
+import { Ionicons } from "@expo/vector-icons";
 
 const MainBottomTabs = createBottomTabNavigator<MainBottomTabParamList>();
 
@@ -34,7 +35,7 @@ const MainStackScreen: React.FC<IMainStackInterface> = (props) => {
         component={HomePage}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Icon color={color} size={size} name="home" />
+            <Ionicons color={color} size={size} name="home-sharp" />
           ),
         }}
       />
@@ -43,7 +44,7 @@ const MainStackScreen: React.FC<IMainStackInterface> = (props) => {
           component={ExerciseScreenStack}
           options={{
             tabBarIcon: ({ color, size }) => (
-              <Icon color={color} size={size} name="dumbbell" />
+              <Ionicons color={color} size={size} name="barbell" />
             ),
           }}
         />
@@ -52,7 +53,7 @@ const MainStackScreen: React.FC<IMainStackInterface> = (props) => {
         component={StatisticsPage}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Icon color={color} size={size} name="chart-area" />
+            <Ionicons color={color} size={size} name="md-bar-chart" />
           ),
         }}
       />
@@ -61,7 +62,7 @@ const MainStackScreen: React.FC<IMainStackInterface> = (props) => {
         component={WorkoutPage}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Icon color={color} size={size} name="plus" />
+            <Ionicons color={color} size={size} name="add-circle" />
           ),
         }}
       />

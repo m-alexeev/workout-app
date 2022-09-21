@@ -1,13 +1,12 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
-import { View } from "react-native";
 import TitleBar from "../../../components/organisms/TitleBar";
 import { useTheme } from "../../../contexts/theme";
 import { ExercisesStackParamList } from "../../../types/navigation";
 import ExerciseDetailsScreenStack from "./details/DetailsStack";
 import ExercisesPage from "./Exercises";
-import { MaterialIcons, Feather, Octicons } from "@expo/vector-icons";
 import IconButton from "../../../components/atoms/IconButton";
+import {StyleSheet} from 'react-native';
 
 export interface IExerciseScreenStackProps {}
 
@@ -19,8 +18,8 @@ const ExerciseScreenStack: React.FC<IExerciseScreenStackProps> = (props) => {
   const exercisePageIcons = () => {
     return (
       <>
-        <IconButton iconName="filter" size={16}></IconButton>
-        <IconButton iconName="plus" size={16}></IconButton>
+        <IconButton style={styles.icons} iconName="filter" size={18}></IconButton>
+        <IconButton style={styles.icons} iconName="md-add" size={18}></IconButton>
       </>
     );
   };
@@ -35,7 +34,7 @@ const ExerciseScreenStack: React.FC<IExerciseScreenStackProps> = (props) => {
             <TitleBar
               title="Exercises"
               search
-              optionsMenu={exercisePageIcons()}
+              titleBarOptions={exercisePageIcons()}
               {...props}
             />
           ),
@@ -51,5 +50,11 @@ const ExerciseScreenStack: React.FC<IExerciseScreenStackProps> = (props) => {
     </ExerciseStack.Navigator>
   );
 };
+
+const styles = StyleSheet.create({
+  icons: {
+    marginHorizontal: 5,
+  }
+})
 
 export default ExerciseScreenStack;

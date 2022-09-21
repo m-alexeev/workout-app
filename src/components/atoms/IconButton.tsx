@@ -6,10 +6,10 @@ import {
   ViewStyle,
 } from "react-native";
 import { useTheme } from "../../contexts/theme";
-import { FontAwesome } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 
 export interface IIconButtonProps extends Omit<ButtonProps, "title"> {
-  iconName: keyof typeof FontAwesome.glyphMap;
+  iconName: keyof typeof Ionicons.glyphMap;
   size?: number;
   color?: string;
   style?: ViewStyle | ViewStyle[];
@@ -24,6 +24,7 @@ const IconButton: React.FC<IIconButtonProps> = ({
 }) => {
   const { theme } = useTheme();
   let iconColor = color ? color : theme.text_primary;
+  let iconSize = size ? size: 16;
 
   const passedStyles = Array.isArray(style)
     ? Object.assign({}, ...style)
@@ -31,7 +32,7 @@ const IconButton: React.FC<IIconButtonProps> = ({
 
   return (
     <TouchableOpacity style={[passedStyles, styles.container]} {...props}>
-      <FontAwesome name={iconName} color={iconColor} size={size}></FontAwesome>
+      <Ionicons name={iconName} color={iconColor} size={iconSize}></Ionicons>
     </TouchableOpacity>
   );
 };
