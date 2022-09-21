@@ -36,7 +36,7 @@ const TitleBarSearch: React.FC<ITitleBarSearchProps> = ({
           updateSearch("");
         }}
       />
-      <View>
+      <View style={{flex: 1}}>
         <SearchBarInput style={{fontSize: 16}} onCancel={() => updateSearch("")}></SearchBarInput>
       </View>
     </View>

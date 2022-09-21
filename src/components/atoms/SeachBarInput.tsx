@@ -51,8 +51,8 @@ const SearchBarInput: React.FC<ISearchBarInputProps> = ({
         blurOnSubmit
         style={[styles.input, passedStyles, { color: theme.text_primary }]}
         value={inputText}
-      />
-      {showIcon && (
+      /> 
+       {showIcon && (
         <IconButton
           iconName="close"
           onPress={() => {
@@ -73,7 +73,10 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
   },
-  input: {},
+  input: {
+    marginStart: 5,
+    flex: 1,
+  },
   icon: {},
 });
 
