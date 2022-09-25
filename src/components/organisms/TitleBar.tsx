@@ -25,10 +25,12 @@ const TitleBarSearch: React.FC<ITitleBarSearchProps> = ({
 
   return (
     <View
-    style={[styles.container, {flexGrow: 3, backgroundColor: theme.surface}]}
+      style={[
+        styles.container,
+        { flexGrow: 3, backgroundColor: theme.surface },
+      ]}
     >
       <IconButton
-
         iconName="arrow-back"
         size={18}
         onPress={() => {
@@ -36,8 +38,11 @@ const TitleBarSearch: React.FC<ITitleBarSearchProps> = ({
           updateSearch("");
         }}
       />
-      <View style={{flex: 1}}>
-        <SearchBarInput style={{fontSize: 16}} onCancel={() => updateSearch("")}></SearchBarInput>
+      <View style={{ flex: 1 }}>
+        <SearchBarInput
+          style={{ fontSize: 16 }}
+          onCancel={() => updateSearch("")}
+        ></SearchBarInput>
       </View>
     </View>
   );

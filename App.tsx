@@ -14,6 +14,7 @@ import "./config/firebase";
 import { db } from "./config/firebase";
 import useAuthentication from "./src/utils/hooks/auth";
 import { doc, getDoc } from "firebase/firestore";
+import { Provider } from "react-redux";
 
 export interface IAppProps {}
 
@@ -31,25 +32,27 @@ const App: React.FC<IAppProps> = (props) => {
   }
 
   return (
-    <ThemeProvider>
-      <SearchProvider>
-        <NavigationContainer>
-          <RootStack.Navigator screenOptions={{ headerShown: false }}>
-            {user ? (
-              <RootStack.Screen
-                name="MainStackRoute"
-                component={MainStackScreen}
-              />
-            ) : (
-              <RootStack.Screen
-                name="AuthStackRoute"
-                component={AuthStackScreen}
-              />
-            )}
-          </RootStack.Navigator>
-        </NavigationContainer>
-      </SearchProvider>
-    </ThemeProvider>
+    <Provider store={null}>
+      <ThemeProvider>
+        <SearchProvider>
+          <NavigationContainer>
+            <RootStack.Navigator screenOptions={{ headerShown: false }}>
+              {user ? (
+                <RootStack.Screen
+                  name="MainStackRoute"
+                  component={MainStackScreen}
+                />
+              ) : (
+                <RootStack.Screen
+                  name="AuthStackRoute"
+                  component={AuthStackScreen}
+                />
+              )}
+            </RootStack.Navigator>
+          </NavigationContainer>
+        </SearchProvider>
+      </ThemeProvider>
+    </Provider>
   );
 };
 
