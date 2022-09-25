@@ -41,6 +41,7 @@ export type MainBottomTabParamList = {
 export type ExercisesStackParamList = {
   ExerciseList: NavigatorScreenParams<MainBottomTabParamList>,
   ExerciseDetails: {exerciseId: string},
+  FilterModal: undefined,
 }
 
 export type ExerciseDetailsParamList = {

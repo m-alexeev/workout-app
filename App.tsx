@@ -32,7 +32,6 @@ const App: React.FC<IAppProps> = (props) => {
   }
 
   return (
-    <Provider store={null}>
       <ThemeProvider>
         <SearchProvider>
           <NavigationContainer>
@@ -52,7 +51,6 @@ const App: React.FC<IAppProps> = (props) => {
           </NavigationContainer>
         </SearchProvider>
       </ThemeProvider>
-    </Provider>
   );
 };
 
