@@ -66,7 +66,7 @@ const ExerciseScreenStack: React.FC<IExerciseScreenStackProps> = (props) => {
           }}
         />
       </ExerciseStack.Group>
-      <ExerciseStack.Group screenOptions={{presentation: "transparentModal", headerShown:false}}>
+      <ExerciseStack.Group screenOptions={{presentation: "containedTransparentModal", headerShown:false}}>
         <ExerciseStack.Screen name='FilterModal' component={FilterModal}></ExerciseStack.Screen>
       </ExerciseStack.Group>
     </ExerciseStack.Navigator>

@@ -1,3 +1,4 @@
+import { exerciseMuscleGroup, exerciseType } from "../types/exercise";
 import { Exercise } from "./exercise";
 
 export const exercise_list: Array<Exercise> = new Array(
@@ -42,3 +43,27 @@ export const exercise_list: Array<Exercise> = new Array(
   new Exercise("Calf Press on Leg Press", "Machine", "Legs"),
   new Exercise("Calf Press on Seated Leg Press", "Machine", "Legs"),
 )
+
+
+export const exercise_types: Array<exerciseType> = [
+  "Barbell",
+  "Dumbbell",
+  "Machine",
+  "Cable",
+  "Weighted Bodyweight",
+  "Assisted Bodyweight",
+  'Cardio',
+  "Other",
+];
+
+export const exercise_muscle_groups: Array<exerciseMuscleGroup> = [
+  "Abs",
+  "Arms",
+  "Back",
+  "Chest",
+  "Legs",
+  "Shoulders",
+  "Full Body",
+  "Cardio",
+  "Other"
+];
