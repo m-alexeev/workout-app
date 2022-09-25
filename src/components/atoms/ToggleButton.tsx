@@ -40,7 +40,7 @@ const ToggleButton: React.FC<IToggleButtonProps> = ({
       {toggled &&
         <Ionicons name='checkmark' color={theme.primary} size={18}/>
       }
-      <CustomText>{title}</CustomText>
+      <CustomText style={{fontSize: 12}}>{title}</CustomText>
     </TouchableOpacity>
   );
 };
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     flex: 1,
     flexDirection: 'row', 
-    padding: 10,
+    padding: 5,
     justifyContent: 'center',
     alignItems: 'center',
     margin: 'auto',

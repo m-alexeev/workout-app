@@ -50,10 +50,10 @@ export const exercise_types: Array<exerciseType> = [
   "Dumbbell",
   "Machine",
   "Cable",
-  "Weighted Bodyweight",
-  "Assisted Bodyweight",
   'Cardio',
   "Other",
+  "Assisted Bodyweight",
+  "Weighted Bodyweight",
 ];
 
 export const exercise_muscle_groups: Array<exerciseMuscleGroup> = [

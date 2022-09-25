@@ -39,7 +39,7 @@ const FilterModal: React.FC<IFilterModalProps> = ({ navigation }) => {
           {exercise_types.map((type, index) => {
             return (
               <View style={{ margin: 5 }} key={index}>
-                <ToggleButton toggled key={index} title={type} />;
+                <ToggleButton toggled key={index} title={type} />
               </View>
             );
           })}
