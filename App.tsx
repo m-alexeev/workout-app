@@ -11,10 +11,7 @@ import { RootStackParamList } from "./src/types/navigation";
 import ThemeProvider from "./src/contexts/theme";
 import SearchProvider from "./src/contexts/search";
 import "./config/firebase";
-import { db } from "./config/firebase";
 import useAuthentication from "./src/utils/hooks/auth";
-import { doc, getDoc } from "firebase/firestore";
-import { Provider } from "react-redux";
 
 export interface IAppProps {}
 
@@ -24,8 +21,14 @@ const App: React.FC<IAppProps> = (props) => {
   const [isLoading, setLoading] = useState(true);
   const [isSignedIn, setSignedIn] = useState(false);
   let [fontsLoaded] = useFonts(type);
-
+  
   const { user } = useAuthentication();
+
+  // firebase.firestore().collection("exerciseTypes").get().then(snapshot => {
+  //   snapshot.forEach(docSnapshot => {
+  //     console.log(docSnapshot.data())
+  //   })
+  // });
 
   if (!user || !fontsLoaded) {
     return <LoadingScreen setLoading={setLoading} setSignedIn={setSignedIn} />;

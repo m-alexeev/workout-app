@@ -73,12 +73,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 25,
     backgroundColor: "#111111EE",
+    
   },
   buttons: {
     flexWrap: "wrap",
     justifyContent: "flex-start",
     alignItems: "flex-start",
-    direction: "inherit",
     flexDirection: "row",
   },
 });

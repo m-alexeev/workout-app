@@ -3,7 +3,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomePage from "./Home";
 import StatisticsPage from "./Statistics";
 import { MainBottomTabParamList } from "../../types/navigation";
-import Icon from "react-native-vector-icons/FontAwesome5";
 import { useTheme } from "../../contexts/theme";
 import WorkoutPage from "./Workout";
 import ExerciseScreenStack from "./exercises_screens/ExerciseStack";

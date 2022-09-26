@@ -20,5 +20,5 @@ let app = firebase.initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 export {db};
-
+export {app};
 export default app;
