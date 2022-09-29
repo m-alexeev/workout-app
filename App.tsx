@@ -12,6 +12,8 @@ import ThemeProvider from "./src/contexts/theme";
 import SearchProvider from "./src/contexts/search";
 import "./config/firebase";
 import useAuthentication from "./src/utils/hooks/auth";
+import { Provider } from "react-redux";
+import { store } from "./src/redux/store";
 
 export interface IAppProps {}
 
@@ -21,20 +23,15 @@ const App: React.FC<IAppProps> = (props) => {
   const [isLoading, setLoading] = useState(true);
   const [isSignedIn, setSignedIn] = useState(false);
   let [fontsLoaded] = useFonts(type);
-  
+
   const { user } = useAuthentication();
 
-  // firebase.firestore().collection("exerciseTypes").get().then(snapshot => {
-  //   snapshot.forEach(docSnapshot => {
-  //     console.log(docSnapshot.data())
-  //   })
-  // });
-
-  if (!user || !fontsLoaded) {
+  if (!fontsLoaded) {
     return <LoadingScreen setLoading={setLoading} setSignedIn={setSignedIn} />;
   }
 
   return (
+    <Provider store={store}>
       <ThemeProvider>
         <SearchProvider>
           <NavigationContainer>
@@ -54,6 +51,7 @@ const App: React.FC<IAppProps> = (props) => {
           </NavigationContainer>
         </SearchProvider>
       </ThemeProvider>
+    </Provider>
   );
 };
 

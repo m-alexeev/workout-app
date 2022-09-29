@@ -1,12 +1,10 @@
 
 export interface ExerciseType {
   name: string 
-  toggled?: boolean
 };
 
 export interface ExerciseMuscleGroup {
   name: string
-  toggled?: boolean
 };
 
 export interface Exercise { 

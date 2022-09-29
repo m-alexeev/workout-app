@@ -1,8 +1,10 @@
 import { FilterActionTypes, UPDATE_FILTER, CLEAR_FILTER } from "../actions/filter.actiontypes";
-import { ExerciseState } from "../types/filter.types";
+import { ExerciseFilterType, ExerciseState } from "../types/filter.types";
+import firebase from "firebase/compat";
+
 
 const initialFilterState: ExerciseState = {
-  exerciseFilters : []
+  exerciseFilters : [], 
 };
 
 export function filterReducer(state: ExerciseState = initialFilterState, action : FilterActionTypes): ExerciseState {

@@ -1,14 +1,15 @@
 import {configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-import {applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
+import { filterReducer } from './reducers/filter.reducer';
+import { combineReducers } from 'redux';
 
-const middleware = applyMiddleware(thunk);
 
-const reducer = {
+const rootReducers = combineReducers({
+  filter: filterReducer,
+})
 
-}
 
 export const store = configureStore({
-  reducer, 
+  reducer: rootReducers, 
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
 })

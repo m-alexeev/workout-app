@@ -1,6 +1,6 @@
 import { NativeStackHeaderProps } from "@react-navigation/native-stack";
 import React, { SetStateAction, useState } from "react";
-import { StyleSheet, View, Dimensions } from "react-native";
+import { StyleSheet, View, Dimensions, SafeAreaView } from "react-native";
 import { useSearch } from "../../contexts/search";
 import { useTheme } from "../../contexts/theme";
 import CustomText from "../atoms/CustomText";
@@ -24,12 +24,7 @@ const TitleBarSearch: React.FC<ITitleBarSearchProps> = ({
   const { updateSearch } = useSearch();
 
   return (
-    <View
-      style={[
-        styles.container,
-        { flexGrow: 3, backgroundColor: theme.surface },
-      ]}
-    >
+    <View style={[styles.container, { backgroundColor: theme.surface }]}>
       <IconButton
         iconName="arrow-back"
         size={18}
@@ -65,41 +60,43 @@ const TitleBar: React.FC<ITitleBarProps> = ({
         <TitleBarSearch setShowSearchBar={setShowSearchBar} />
       ) : (
         <View style={[styles.container, { backgroundColor: theme.surface }]}>
-          {props.back && (
-            <IconButton
-              style={{
-                justifyContent: "center",
-                marginVertical: "auto",
-                marginRight: 5,
-              }}
-              iconName="arrow-back"
-              size={16}
-              onPress={() => navigation.goBack()}
-            />
-          )}
-          <CustomText style={[styles.title, { color: theme.text_primary }]}>
-            {title}
-          </CustomText>
-          <View style={styles.icons_container}>
-            <View
-              style={[
-                styles.icons,
-                { maxWidth: Dimensions.get("window").width / 2 },
-              ]}
-            >
-              {search && (
-                <IconButton
-                  style={styles.search_icon}
-                  size={18}
-                  iconName={showSearchBar ? "close" : "search"}
-                  onPress={() => {
-                    setShowSearchBar(!showSearchBar);
-                  }}
-                />
-              )}
-              {titleBarOptions}
+          <SafeAreaView style={styles.content}>
+            {props.back && (
+              <IconButton
+                style={{
+                  justifyContent: "center",
+                  marginVertical: "auto",
+                  marginRight: 5,
+                }}
+                iconName="arrow-back"
+                size={24}
+                onPress={() => navigation.goBack()}
+              />
+            )}
+            <CustomText style={[styles.title, { color: theme.text_primary }]}>
+              {title}
+            </CustomText>
+            <View style={styles.icons_container}>
+              <View
+                style={[
+                  styles.icons,
+                  { maxWidth: Dimensions.get("window").width / 2 },
+                ]}
+              >
+                {search && (
+                  <IconButton
+                    style={styles.search_icon}
+                    size={18}
+                    iconName={showSearchBar ? "close" : "search"}
+                    onPress={() => {
+                      setShowSearchBar(!showSearchBar);
+                    }}
+                  />
+                )}
+                {titleBarOptions}
+              </View>
             </View>
-          </View>
+          </SafeAreaView>
         </View>
       )}
     </>
@@ -108,11 +105,14 @@ const TitleBar: React.FC<ITitleBarProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+  },
+  content: {
+    marginTop: 20,
     flexDirection: "row",
+    padding: 15,
     paddingVertical: 15,
     justifyContent: "space-between",
-    padding: 15,
+    alignItems: "center",
   },
   icons_container: {
     justifyContent: "flex-end",
