@@ -21,6 +21,7 @@ const MainStackScreen: React.FC<IMainStackInterface> = (props) => {
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: theme.primary,
+        tabBarHideOnKeyboard: true,
         tabBarStyle: {
           backgroundColor: theme.background,
           shadowRadius: 15,

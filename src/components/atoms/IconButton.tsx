@@ -38,7 +38,9 @@ const IconButton: React.FC<IIconButtonProps> = ({
 };
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    padding: 3,
+  },
 });
 
 export default IconButton;

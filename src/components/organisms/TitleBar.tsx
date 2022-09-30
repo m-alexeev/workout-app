@@ -25,20 +25,22 @@ const TitleBarSearch: React.FC<ITitleBarSearchProps> = ({
 
   return (
     <View style={[styles.container, { backgroundColor: theme.surface }]}>
-      <IconButton
-        iconName="arrow-back"
-        size={18}
-        onPress={() => {
-          setShowSearchBar(false);
-          updateSearch("");
-        }}
-      />
-      <View style={{ flex: 1 }}>
-        <SearchBarInput
-          style={{ fontSize: 16 }}
-          onCancel={() => updateSearch("")}
-        ></SearchBarInput>
-      </View>
+      <SafeAreaView style={[styles.content, { backgroundColor: theme.surface }]}>
+        <IconButton
+          iconName="arrow-back"
+          size={24}
+          onPress={() => {
+            setShowSearchBar(false);
+            updateSearch("");
+          }}
+        />
+        <View style={{ flex: 1 }}>
+          <SearchBarInput
+            style={{ fontSize: 18 }}
+            onCancel={() => updateSearch("")}
+          ></SearchBarInput>
+        </View>
+      </SafeAreaView>
     </View>
   );
 };
@@ -104,8 +106,7 @@ const TitleBar: React.FC<ITitleBarProps> = ({
 };
 
 const styles = StyleSheet.create({
-  container: {
-  },
+  container: {},
   content: {
     marginTop: 20,
     flexDirection: "row",

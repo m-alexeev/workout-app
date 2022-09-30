@@ -48,10 +48,9 @@ const ToggleButton: React.FC<IToggleButtonProps> = ({
 const styles = StyleSheet.create({
   button: {
     borderWidth: 2, 
-    borderRadius: 10,
-    flex: 1,
+    borderRadius: 20,
     flexDirection: 'row', 
-    padding: 5,
+    paddingHorizontal: 10,
     justifyContent: 'center',
     alignItems: 'center',
     margin: 'auto',

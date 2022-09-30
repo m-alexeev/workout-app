@@ -1,4 +1,7 @@
-import { createNativeStackNavigator, NativeStackNavigationProp } from "@react-navigation/native-stack";
+import {
+  createNativeStackNavigator,
+  NativeStackNavigationProp,
+} from "@react-navigation/native-stack";
 import React from "react";
 import TitleBar from "../../../components/organisms/TitleBar";
 import { useTheme } from "../../../contexts/theme";
@@ -9,20 +12,20 @@ import IconButton from "../../../components/atoms/IconButton";
 import { StyleSheet } from "react-native";
 import FilterModal from "./FilterModal";
 
-
 const ExerciseStack = createNativeStackNavigator<ExercisesStackParamList>();
 
 type ExerciseScreenNavProp = NativeStackNavigationProp<
-  ExercisesStackParamList, "ExerciseList">;
+  ExercisesStackParamList,
+  "ExerciseList"
+>;
 
 export interface IExerciseScreenStackProps {
   navigation: ExerciseScreenNavProp;
 }
 
-
 const ExerciseScreenStack: React.FC<IExerciseScreenStackProps> = (props) => {
   const { theme } = useTheme();
-  
+
   const exercisePageIcons = () => {
     return (
       <>
@@ -30,7 +33,7 @@ const ExerciseScreenStack: React.FC<IExerciseScreenStackProps> = (props) => {
           style={styles.icons}
           iconName="filter"
           size={18}
-          onPress={() => props.navigation.navigate('FilterModal')}
+          onPress={() => props.navigation.navigate("FilterModal")}
         ></IconButton>
         <IconButton
           style={styles.icons}
@@ -66,8 +69,16 @@ const ExerciseScreenStack: React.FC<IExerciseScreenStackProps> = (props) => {
           }}
         />
       </ExerciseStack.Group>
-      <ExerciseStack.Group screenOptions={{presentation: "containedTransparentModal", headerShown:false}}>
-        <ExerciseStack.Screen name='FilterModal' component={FilterModal}></ExerciseStack.Screen>
+      <ExerciseStack.Group
+        screenOptions={{
+          presentation: "containedTransparentModal",
+          headerShown: false,
+        }}
+      >
+        <ExerciseStack.Screen
+          name="FilterModal"
+          component={FilterModal}
+        ></ExerciseStack.Screen>
       </ExerciseStack.Group>
     </ExerciseStack.Navigator>
   );

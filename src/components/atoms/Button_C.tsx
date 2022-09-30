@@ -37,7 +37,6 @@ const Button_C: React.FC<IButtonProps> = ({ type, style, loading, ...props }) =>
 
 const styles = StyleSheet.create({
   button: {
-    flex: 1,
     flexDirection: 'row',
     padding: 10,
     borderRadius: 5,

@@ -25,7 +25,6 @@ const FilterModal: React.FC<IFilterModalProps> = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={{margin: 'auto'}}>
         <Modal
           animationType="fade"
           visible={true}
@@ -34,7 +33,7 @@ const FilterModal: React.FC<IFilterModalProps> = ({ navigation }) => {
           }}
           transparent
         >
-          <View style={{margin: 'auto', backgroundColor: theme.background }}>
+          <View style={{flexDirection:'column', backgroundColor: theme.background }}>
             <CustomText>Filter</CustomText>
             <CustomText>Exercise Types</CustomText>
             <View style={styles.buttons}>
@@ -59,7 +58,6 @@ const FilterModal: React.FC<IFilterModalProps> = ({ navigation }) => {
             <Button_C title="Close" onPress={() => navigation.goBack()} />
           </View>
         </Modal>
-      </View>
     </View>
   );
 };
@@ -68,18 +66,15 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     height: "100%",
-    display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    marginVertical: 'auto',
     padding: 25,
     backgroundColor: "#111111EE",
-    
   },
   buttons: {
+    flexDirection:"row" ,
     flexWrap: "wrap",
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
-    flexDirection: "row",
   },
 });
 
