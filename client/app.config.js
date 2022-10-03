@@ -29,7 +29,7 @@ export default {
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.bouncyknight.workout",
-      "expo.android.googleServicesFile": "./google-services.json"
+      // "expo.android.googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png"

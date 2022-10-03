@@ -105,7 +105,7 @@ const LoginScreen: React.FC<ILoginScreenProps> = ({ navigation }) => {
 			<View >
 				<CustomText style={{ fontSize: 18, textAlign: 'center' }}>Social Login</CustomText>
 				<View style={styles.socialContainer}>
-					<SocialButton size={25} iconName='google-plus-g'></SocialButton>
+					<SocialButton size={25} iconName='google'></SocialButton>
 				</View>
 			</View>
 		</SafeAreaView>

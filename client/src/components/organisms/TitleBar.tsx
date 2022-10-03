@@ -108,6 +108,7 @@ const TitleBar: React.FC<ITitleBarProps> = ({
 const styles = StyleSheet.create({
   container: {},
   content: {
+    height: 60,
     marginTop: 20,
     flexDirection: "row",
     padding: 15,
