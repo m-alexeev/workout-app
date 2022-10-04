@@ -1,15 +1,4 @@
-# microblog-api
-
-[![Build status](https://github.com/miguelgrinberg/microblog-api/workflows/build/badge.svg)](https://github.com/miguelgrinberg/microblog-api/actions) [![codecov](https://codecov.io/gh/miguelgrinberg/microblog-api/branch/main/graph/badge.svg)](https://codecov.io/gh/miguelgrinberg/microblog-api)
-
-A modern (as of 2022) Flask API back end.
-
-## Deploy to Heroku
-
-Click the button below to deploy the application directly to your Heroku
-account.
-
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/miguelgrinberg/microblog-api/tree/heroku)
+# Backend
 
 ## Deploy on your Computer
 

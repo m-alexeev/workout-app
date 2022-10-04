@@ -1,13 +1,19 @@
 from datetime import datetime, timedelta
+from email.policy import default
+import enum
 from hashlib import md5
 import secrets
 from time import time
+import uuid
 
 from flask import current_app, url_for
 import jwt
 import sqlalchemy as sqla
+from sqlalchemy import Enum, false
 from sqlalchemy import orm as sqla_orm
 from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy_utils import UUIDType
+
 
 from api.app import db
 
@@ -18,10 +24,55 @@ class Updateable:
             setattr(self, attr, value)
 
 
+class Gender(enum.Enum):
+    MALE = "Male"
+    FEMALE = "Female"
+
+
+class SetType(enum.Enum):
+    WARM_UP = "Warm Up"
+    NORMAL = "Normal"
+    FAILURE = "Failure"
+
+
+class Category(enum.Enum):
+    BARBELL = "Barbell"
+    DUMBBELL = "Dumbbell"
+    MACHINE = "Machine"
+    CABLE = "Cable"
+    W_BODYWEIGHT = "Weighted Bodyweight"
+    A_BODYWEIGHT = "Assisted Bodyweight"
+    CARDIO = "Cardio"
+    OTHER = "Other"
+
+
+class BodyPart(enum.Enum):
+    ABS = "Abs"
+    ARMS = "Arms"
+    BACK = "Back"
+    CHEST = "Chest"
+    LEGS = "Legs"
+    SHOULDERS = "Shoulders"
+    FULL_BODY = "Full Body"
+    CARDIO = "Cardio"
+    OTHER = "Other"
+
+
+class MeasurementCategory(enum.Enum):
+    CORE = "Core"
+    BODY_PART = "Body Part"
+
+
+class MeasurementUnit(enum.Enum):
+    WEIGHT = "Weight"
+    PERCENT = "Percent"
+    LENGHT = "Length"
+
+
 class Token(db.Model):
     __tablename__ = "tokens"
 
-    id = sqla.Column(sqla.Integer, primary_key=True)
+    id = sqla.Column(UUIDType(binary=False), primary_key=True, default=uuid.uuid4)
     access_token = sqla.Column(sqla.String(64), nullable=False, index=True)
     access_expiration = sqla.Column(sqla.DateTime, nullable=False)
     refresh_token = sqla.Column(sqla.String(64), nullable=False, index=True)
@@ -54,13 +105,16 @@ class Token(db.Model):
 class User(Updateable, db.Model):
     __tablename__ = "users"
 
-    id = sqla.Column(sqla.Integer, primary_key=True)
+    id = sqla.Column(UUIDType(binary=False), primary_key=True, default=uuid.uuid4)
     email = sqla.Column(sqla.String(120), index=True, unique=True, nullable=False)
     password_hash = sqla.Column(sqla.String(128))
     first_name = sqla.Column(sqla.String(64), unique=False, nullable=False)
     last_name = sqla.Column(sqla.String(64), unique=False, nullable=False)
 
     tokens = sqla_orm.relationship("Token", back_populates="user", lazy="noload")
+    profile = sqla_orm.relationship("Profile", back_populates="user", uselist=False)
+    workout = sqla_orm.relationship("Workout", back_populates="user")
+    measurement = sqla_orm.relationship("Measurement", back_populates="user")
 
 
     def __repr__(self):  # pragma: no cover
@@ -141,4 +195,92 @@ class User(Updateable, db.Model):
         except jwt.PyJWTError:
             return
         return db.session.scalar(User.select().filter_by(email=data["reset_email"]))
-    
+
+
+class Profile(Updateable, db.Model):
+    __tablename__ = "profile"
+    id = sqla.Column(UUIDType(binary=False), primary_key=True, default=uuid.uuid4)
+
+    gender = sqla.Column(Enum(Gender), nullable=True)
+    height = sqla.Column(sqla.DECIMAL(5, 2), unique=False, nullable=True)
+    weight = sqla.Column(sqla.DECIMAL(5, 2), unique=False, nullable=True)
+    user_id = sqla.Column(UUIDType(binary=False), sqla.ForeignKey("users.id"))
+
+    # Relationships
+    user = sqla_orm.relationship("User", back_populates="profile")
+
+
+class Workout(Updateable, db.Model):
+    __tablename__ = "workout"
+    id = sqla.Column(UUIDType(binary=False), primary_key=True, default=uuid.uuid4)
+
+    name = sqla.Column(sqla.String(128), nullable=False)
+    duration = sqla.Column(sqla.TIME(timezone=False), nullable=False)
+    date = sqla.Column(
+        sqla.DATETIME(timezone=False), nullable=False, default=datetime.now()
+    )
+    user_id = sqla.Column(UUIDType(binary=False), sqla.ForeignKey("users.id"))
+
+    # Relationships
+    exerciseEntry = sqla_orm.relationship("ExerciseEntry", back_populates="workout")
+    user = sqla_orm.relationship("User", back_populates="workouts")
+
+
+class Exercise(Updateable, db.Model):
+    __tablename__ = "exercise"
+    id = sqla.Column(UUIDType(binary=False), primary_key=True, default=uuid.uuid4)
+
+    name = sqla.Column(sqla.String(64), nullable=False, unique=False)
+    category = sqla.Column(sqla.Enum(Category), nullable=False, unique=False)
+    body_part = sqla.Column(sqla.Enum(BodyPart), nullable=False, unique=False)
+
+    # Relationships
+    exerciseEntry = sqla_orm.relationship("ExerciseEntry", back_populates='exercise' )
+
+class ExerciseEntry(Updateable, db.Model):
+    __tablename__ = "exercise_entry"
+    id = sqla.Column(UUIDType(binary=False), primary_key=True, default=uuid.uuid4)
+
+    workout_id = sqla.Column(UUIDType(binary=False), sqla.ForeignKey("workout.id"))
+    exercise_id = sqla.Column(UUIDType(binary=False), sqla.ForeignKey("exercise.id"))
+
+    # Relationships
+    workout = sqla_orm.relationship("Workout", back_populates="exercise_entries")
+    exercise = sqla_orm.relationship("Exercise", back_populates="exercise_entries")
+    exerciseSets = sqla_orm.relationship(
+        "ExerciseSet", back_populates="exercise_entry"
+    )
+
+
+class ExerciseSet(Updateable, db.Model):
+    __tablename__ = "exercise_set"
+    id = sqla.Column(UUIDType(binary=False), primary_key=True, default=uuid.uuid4)
+
+    weight = sqla.Column(sqla.DECIMAL(5, 2), nullable=True)
+    set_type = sqla.Column(sqla.Enum(SetType), nullable=False, default=SetType.NORMAL)
+    reps = sqla.Column(sqla.Integer, nullable=False, default=0)
+    rpe = sqla.Column(sqla.DECIMAL(5, 2), nullable=True)
+    completed = sqla.Column(sqla.Boolean(), nullable=False, default=False)
+
+    exercise_entry_id = sqla.Column(
+        UUIDType(binary=False), sqla.ForeignKey("exercise_entry.id")
+    )
+
+    # Relationships
+    exerciseEntry = sqla_orm.relationship(
+        "ExerciseEntry", back_populates="exercise_sets"
+    )
+
+
+class Measurements(Updateable, db.Model):
+    __tablename__ = "measurements"
+    id = sqla.Column(UUIDType(binary=False), primary_key = True, default=uuid.uuid4)
+
+    category = sqla.Column(sqla.Enum(MeasurementCategory), nullable=False)
+    reading = sqla.Column(sqla.DECIMAL(5,2), nullable = False)
+    unit = sqla.Column(sqla.Enum(MeasurementUnit), nullable=False)
+    date = sqla.Column(sqla.DATETIME(timezone=False), nullable=False, default = datetime.now())
+    user_id = sqla.Column(UUIDType(binary=False), sqla.ForeignKey('users.id'))
+
+    # Relationships
+    user = sqla_orm.relationship("User", back_populates='measurements')

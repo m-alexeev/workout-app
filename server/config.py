@@ -32,7 +32,7 @@ class Config:
     CORS_SUPPORTS_CREDENTIALS = True
 
     # API documentation
-    APIFAIRY_TITLE = 'Microblog API'
+    APIFAIRY_TITLE = 'Workout API'
     APIFAIRY_VERSION = '1.0'
     APIFAIRY_UI = os.environ.get('DOCS_UI', 'elements')
 

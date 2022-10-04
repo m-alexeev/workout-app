@@ -1,7 +1,6 @@
 {
-  "name": "Microblog API",
+  "name": "Workout API",
   "description": "A modern Flask API.",
-  "repository": "https://github.com/miguelgrinberg/microblog-api",
   "env": {
     "DISABLE_AUTH": {
       "required": false,
@@ -41,11 +40,6 @@
       "generator": "secret"
     }
   },
-  "addons": [
-    {
-      "plan": "heroku-postgresql:hobby-dev"
-    }
-  ],
   "scripts": {
     "postdeploy": "flask db upgrade && flask fake users 10 && flask fake posts 100"
   }
