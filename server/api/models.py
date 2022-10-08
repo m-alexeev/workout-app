@@ -49,6 +49,7 @@ class Category(enum.Enum):
 class BodyPart(enum.Enum):
     ABS = "Abs"
     ARMS = "Arms"
+    CORE = "Core"
     BACK = "Back"
     CHEST = "Chest"
     LEGS = "Legs"
@@ -77,7 +78,7 @@ class Token(db.Model):
     access_expiration = sqla.Column(sqla.DateTime, nullable=False)
     refresh_token = sqla.Column(sqla.String(64), nullable=False, index=True)
     refresh_expiration = sqla.Column(sqla.DateTime, nullable=False)
-    user_id = sqla.Column(sqla.Integer, sqla.ForeignKey("users.id"), index=True)
+    user_id = sqla.Column(UUIDType(binary=False), sqla.ForeignKey("users.id"), index=True)
 
     user = sqla_orm.relationship("User", back_populates="tokens")
 
@@ -113,8 +114,8 @@ class User(Updateable, db.Model):
 
     tokens = sqla_orm.relationship("Token", back_populates="user", lazy="noload")
     profile = sqla_orm.relationship("Profile", back_populates="user", uselist=False)
-    workout = sqla_orm.relationship("Workout", back_populates="user")
-    measurement = sqla_orm.relationship("Measurement", back_populates="user")
+    workouts = sqla_orm.relationship("Workout", back_populates="user")
+    measurements = sqla_orm.relationship("Measurements", back_populates="user")
 
 
     def __repr__(self):  # pragma: no cover
@@ -222,7 +223,7 @@ class Workout(Updateable, db.Model):
     user_id = sqla.Column(UUIDType(binary=False), sqla.ForeignKey("users.id"))
 
     # Relationships
-    exerciseEntry = sqla_orm.relationship("ExerciseEntry", back_populates="workout")
+    exercise_entries = sqla_orm.relationship("ExerciseEntry", back_populates="workout")
     user = sqla_orm.relationship("User", back_populates="workouts")
 
 
@@ -235,7 +236,7 @@ class Exercise(Updateable, db.Model):
     body_part = sqla.Column(sqla.Enum(BodyPart), nullable=False, unique=False)
 
     # Relationships
-    exerciseEntry = sqla_orm.relationship("ExerciseEntry", back_populates='exercise' )
+    exercise_entries = sqla_orm.relationship("ExerciseEntry", back_populates='exercise' )
 
 class ExerciseEntry(Updateable, db.Model):
     __tablename__ = "exercise_entry"
@@ -247,7 +248,7 @@ class ExerciseEntry(Updateable, db.Model):
     # Relationships
     workout = sqla_orm.relationship("Workout", back_populates="exercise_entries")
     exercise = sqla_orm.relationship("Exercise", back_populates="exercise_entries")
-    exerciseSets = sqla_orm.relationship(
+    exercise_sets = sqla_orm.relationship(
         "ExerciseSet", back_populates="exercise_entry"
     )
 
@@ -267,7 +268,7 @@ class ExerciseSet(Updateable, db.Model):
     )
 
     # Relationships
-    exerciseEntry = sqla_orm.relationship(
+    exercise_entry = sqla_orm.relationship(
         "ExerciseEntry", back_populates="exercise_sets"
     )
 

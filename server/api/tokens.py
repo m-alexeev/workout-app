@@ -16,6 +16,7 @@ token_schema = TokenSchema()
 def token_response(token):
     headers = {}
     if current_app.config['REFRESH_TOKEN_IN_COOKIE']:
+        print(True)
         samesite = 'strict'
         if current_app.config['USE_CORS']:  # pragma: no branch
             samesite = 'none' if not current_app.debug else 'lax'
@@ -33,7 +34,7 @@ def token_response(token):
 @tokens.route('/tokens', methods=['POST'])
 @authenticate(basic_auth)
 @response(token_schema)
-@other_responses({401: 'Invalid username or password'})
+@other_responses({401: 'Invalid email or password'})
 def new():
     """Create new access and refresh tokens
 

@@ -10,7 +10,12 @@ from marshmallow import (
 from api import ma, db
 from api.auth import token_auth
 from api.models import (
+    BodyPart,
+    Category,
     Gender,
+    MeasurementCategory,
+    MeasurementUnit,
+    SetType,
     User,
     Profile,
     Workout,
@@ -85,8 +90,8 @@ class UserSchema(ma.SQLAlchemySchema):
         required=True, validate=[validate.Length(max=120), validate.Email()]
     )
     password = ma.String(required=True, load_only=True, validate=validate.Length(min=3))
-    first_name = ma.String(dump_only=True)
-    last_name = ma.String(dump_only=True)
+    first_name = ma.String(required=True)
+    last_name = ma.String(required=True)
 
     @validates("email")
     def validate_email(self, value):
@@ -114,7 +119,7 @@ class ProfileSchema(ma.SQLAlchemySchema):
 
     id = ma.auto_field(dump_only=True)
     gender = ma.auto_field(
-        required=False, validate=validate.ContainsOnly(choices=Gender)
+        required=False, validate=validate.OneOf(choices=[g.value for g in Gender])
     )
     height = ma.auto_field(required=False, validate=validate.Range(min=1, max=500))
     weight = ma.auto_field(required=False, validate=validate.Range(min=1, max=500))
@@ -129,13 +134,71 @@ class WorkoutSchema(ma.SQLAlchemySchema):
 
     id = ma.auto_field(dump_only=True)
     name = ma.String(required=True, validate=validate.Length(min=1, max=128))
-    duration = ma.auto_field(dump_only=True)
+    duration = ma.auto_field(required=True)
     date = ma.auto_field(dump_only=True)
     user = ma.Nested(UserSchema)
 
 
 class ExerciseSchema(ma.SQLAlchemySchema):
-    
+    class Meta:
+        model = Exercise
+        ordered = True
+
+    id = ma.auto_field(dump_only=True)
+    name = ma.String(required=True, validate=validate.Length(min=2, max=64))
+    category = ma.auto_field(
+        required=True, validate=validate.OneOf(choices=[c.value for c in Category])
+    )
+    body_part = ma.auto_field(
+        reqired=True, validate=validate.OneOf(choices=[b_p.value for b_p in BodyPart])
+    )
+
+
+class ExerciseEntrySchema(ma.SQLAlchemySchema):
+    class Meta:
+        model = ExerciseEntry
+        ordered = True
+
+    workouts = ma.Nested(WorkoutSchema)
+    exercise = ma.Nested(ExerciseSchema)
+
+
+class ExerciseSetSchema(ma.SQLAlchemySchema):
+    class Meta:
+        model = ExerciseSet
+        ordered = False
+
+    id = ma.auto_field(dump_only=True)
+    weight = ma.auto_field(required=True, validate=validate.Range(min=0))
+    set_type = ma.auto_field(
+        required=True, validate=validate.OneOf(choices=[s_t.value for s_t in SetType])
+    )
+    reps = ma.auto_field(required=True, validate=validate.Range(min=0))
+    rpe = ma.auto_field(required=False, validate=validate.Range(min=0, max=10))
+    completed = ma.auto_field(required=False)
+
+    exercise_entry = ma.Nested(ExerciseEntrySchema)
+
+
+class Measuremnts(ma.SQLAlchemySchema):
+    class Meta:
+        model = Measurements
+        ordered = True
+
+    id = ma.auto_field(dump_only=True)
+    category = ma.auto_field(
+        required=True,
+        validate=validate.OneOf(choices=[m_c.value for m_c in MeasurementCategory]),
+    )
+    reading = ma.auto_field(required=True, validate=validate.Range(min=0))
+    unit = ma.auto_field(
+        required=True,
+        validate=validate.OneOf(choices=[m_u.value for m_u in MeasurementUnit]),
+    )
+    date = ma.auto_field(dump_only=True)
+
+    user = ma.Nested(UserSchema)
+
 
 class TokenSchema(ma.Schema):
     class Meta:

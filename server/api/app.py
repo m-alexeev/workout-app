@@ -36,9 +36,7 @@ def create_app(config_class=Config):
     app.register_blueprint(tokens, url_prefix='/api')
     from api.users import users
     app.register_blueprint(users, url_prefix='/api')
-    from api.posts import posts
-    app.register_blueprint(posts, url_prefix='/api')
-    from api.fake import fake
+    from api.generator import fake
     app.register_blueprint(fake)
 
     # define the shell context
