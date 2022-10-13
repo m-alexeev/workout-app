@@ -26,7 +26,7 @@ from api.models import (
 )
 
 paginated_schema_cache = {}
-
+list_schema_cache = {}
 
 class EmptySchema(ma.Schema):
     pass
@@ -64,6 +64,7 @@ class StringPaginationSchema(ma.Schema):
             raise ValidationError("Cannot specify both offset and after")
 
 
+
 def PaginatedCollection(schema, pagination_schema=StringPaginationSchema):
     if schema in paginated_schema_cache:
         return paginated_schema_cache[schema]
@@ -78,6 +79,20 @@ def PaginatedCollection(schema, pagination_schema=StringPaginationSchema):
     PaginatedSchema.__name__ = "Paginated{}".format(schema.__class__.__name__)
     paginated_schema_cache[schema] = PaginatedSchema
     return PaginatedSchema
+
+
+def ListCollection(schema): 
+    if schema in list_schema_cache: 
+        return list_schema_cache[schema]
+
+    class ListSchema(ma.Schema):
+        class Meta:
+            ordered = True
+        
+        data = ma.Nested(schema, many=True)
+    ListSchema.__name__ = f"List {schema.__class__.__name__}"
+    list_schema_cache[schema] = ListSchema
+    return ListSchema
 
 
 class UserSchema(ma.SQLAlchemySchema):
@@ -150,7 +165,7 @@ class ExerciseSchema(ma.SQLAlchemySchema):
         required=True, validate=validate.OneOf(choices=[c.value for c in Category])
     )
     body_part = ma.auto_field(
-        reqired=True, validate=validate.OneOf(choices=[b_p.value for b_p in BodyPart])
+        required=True, validate=validate.OneOf(choices=[b_p.value for b_p in BodyPart])
     )
 
 

@@ -3,7 +3,7 @@ from flask import abort
 from apifairy import arguments, response
 import sqlalchemy as sqla
 from api.app import db
-from api.schemas import StringPaginationSchema, PaginatedCollection
+from api.schemas import ListCollection, StringPaginationSchema, PaginatedCollection
 
 
 def paginated_response(schema, max_limit=25, order_by=None,
@@ -60,4 +60,19 @@ def paginated_response(schema, max_limit=25, order_by=None,
         return arguments(pagination_schema)(response(PaginatedCollection(
             schema, pagination_schema=pagination_schema))(paginate))
 
+    return inner
+
+
+def list_response(schema, order_by=None, order_direction='asc'):
+    def inner(f):
+        @wraps(f)
+        def listify(*args, **kwargs):
+            args = list(args)
+            select_query = f(*args, **kwargs)
+            if order_by is not None:
+                o = order_by.desc() if order_direction == 'desc' else order_by
+                select_query = select_query.order_by(o)
+            data = db.session.scalars(select_query).all()
+            return {'data': data}
+        return (response(ListCollection(schema))(listify))
     return inner

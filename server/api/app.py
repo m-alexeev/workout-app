@@ -38,6 +38,8 @@ def create_app(config_class=Config):
     app.register_blueprint(users, url_prefix='/api')
     from api.generator import fake
     app.register_blueprint(fake)
+    from api.exercises import exercises
+    app.register_blueprint(exercises)
 
     # define the shell context
     @app.shell_context_processor

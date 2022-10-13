@@ -116,7 +116,11 @@ class User(Updateable, db.Model):
     profile = sqla_orm.relationship("Profile", back_populates="user", uselist=False)
     workouts = sqla_orm.relationship("Workout", back_populates="user")
     measurements = sqla_orm.relationship("Measurements", back_populates="user")
+    exercises = sqla_orm.relationship("Exercise", back_populates="user", lazy="noload")
 
+
+    def exercises_select(self):
+        return Exercise.select().where(sqla_orm.with_parent(self, User.exercises))
 
     def __repr__(self):  # pragma: no cover
         return "<User {}>".format(self.email)
@@ -202,7 +206,7 @@ class Profile(Updateable, db.Model):
     __tablename__ = "profile"
     id = sqla.Column(UUIDType(binary=False), primary_key=True, default=uuid.uuid4)
 
-    gender = sqla.Column(Enum(Gender), nullable=True)
+    gender = sqla.Column(sqla.String(9), nullable=True)
     height = sqla.Column(sqla.DECIMAL(5, 2), unique=False, nullable=True)
     weight = sqla.Column(sqla.DECIMAL(5, 2), unique=False, nullable=True)
     user_id = sqla.Column(UUIDType(binary=False), sqla.ForeignKey("users.id"))
@@ -232,11 +236,16 @@ class Exercise(Updateable, db.Model):
     id = sqla.Column(UUIDType(binary=False), primary_key=True, default=uuid.uuid4)
 
     name = sqla.Column(sqla.String(64), nullable=False, unique=False)
-    category = sqla.Column(sqla.Enum(Category), nullable=False, unique=False)
-    body_part = sqla.Column(sqla.Enum(BodyPart), nullable=False, unique=False)
+    category = sqla.Column(sqla.String(64), nullable=False, unique=False)
+    body_part = sqla.Column(sqla.String(64), nullable=False, unique=False)
+    user_id = sqla.Column(UUIDType(binary=False), sqla.ForeignKey('users.id'), nullable=True)
 
     # Relationships
     exercise_entries = sqla_orm.relationship("ExerciseEntry", back_populates='exercise' )
+    user = sqla_orm.relationship("User", back_populates="exercises")
+
+    def __repr__(self) -> str:
+        return f"<{self.name}, {self.body_part}, {self.category}"
 
 class ExerciseEntry(Updateable, db.Model):
     __tablename__ = "exercise_entry"
@@ -258,7 +267,7 @@ class ExerciseSet(Updateable, db.Model):
     id = sqla.Column(UUIDType(binary=False), primary_key=True, default=uuid.uuid4)
 
     weight = sqla.Column(sqla.DECIMAL(5, 2), nullable=True)
-    set_type = sqla.Column(sqla.Enum(SetType), nullable=False, default=SetType.NORMAL)
+    set_type = sqla.Column(sqla.String(64), nullable=False, default=SetType.NORMAL)
     reps = sqla.Column(sqla.Integer, nullable=False, default=0)
     rpe = sqla.Column(sqla.DECIMAL(5, 2), nullable=True)
     completed = sqla.Column(sqla.Boolean(), nullable=False, default=False)
@@ -277,9 +286,9 @@ class Measurements(Updateable, db.Model):
     __tablename__ = "measurements"
     id = sqla.Column(UUIDType(binary=False), primary_key = True, default=uuid.uuid4)
 
-    category = sqla.Column(sqla.Enum(MeasurementCategory), nullable=False)
+    category = sqla.Column(sqla.String(64), nullable=False)
     reading = sqla.Column(sqla.DECIMAL(5,2), nullable = False)
-    unit = sqla.Column(sqla.Enum(MeasurementUnit), nullable=False)
+    unit = sqla.Column(sqla.String(64), nullable=False)
     date = sqla.Column(sqla.DATETIME(timezone=False), nullable=False, default = datetime.now())
     user_id = sqla.Column(UUIDType(binary=False), sqla.ForeignKey('users.id'))
 
