@@ -52,3 +52,4 @@ def delete(id):
     db.session.delete(exercise)
     db.session.commit()
     return '', 204
+
