@@ -5,7 +5,7 @@ const inititialState: Message = {
   message: "",
 };
 
-export function messageReducer(state: Message, action: MessageActionTypes): Message {
+export function messageReducer(state: Message = inititialState, action: MessageActionTypes): Message {
   const {type, payload} = action;
   switch(type){
     case SET_MESSAGE: 

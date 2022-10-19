@@ -16,7 +16,7 @@ const initialUserState: UserState = {
 };
 
 export function userReducer(
-  state: UserState,
+  state: UserState = initialUserState, 
   action: AuthActionType
 ): UserState {
   switch (action.type) {
@@ -45,7 +45,7 @@ export function userReducer(
     case LOGOUT: 
       return {
         ...state, 
-        isLoggedIn: false
+        isLoggedIn: false,
         user: null,
       }
     case REHYDRATE:
