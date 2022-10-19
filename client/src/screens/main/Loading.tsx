@@ -1,35 +1,17 @@
-import React, {Dispatch, useCallback, useEffect} from 'react'
-import {View, ActivityIndicator} from 'react-native';
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth'
-
+import React, { Dispatch } from "react";
+import { View, ActivityIndicator } from "react-native";
+import "firebase/compat/auth";
 
 export interface ILoadingScreenInterface {
-  setSignedIn: Dispatch<React.SetStateAction<boolean>>
-  setLoading: Dispatch<React.SetStateAction<boolean>>
-};
-
-const LoadingScreen: React.FC<ILoadingScreenInterface> = ({setLoading, setSignedIn}) => {
   
-  const isLoggedIn = useCallback(() => {
-    firebase.auth().onAuthStateChanged((user)=> {
-      if (user){
-        setSignedIn(true);
-      }
-      setLoading(false);
-    });
+}
 
-  }, []);
-
-  useEffect(() => {
-    isLoggedIn();
-  },[]);
-
+const LoadingScreen: React.FC<ILoadingScreenInterface> = () => {
   return (
     <View>
-      <ActivityIndicator size='large'/>
+      <ActivityIndicator size="large" />
     </View>
-  )
-}
+  );
+};
 
 export default LoadingScreen;

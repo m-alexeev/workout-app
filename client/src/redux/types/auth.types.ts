@@ -8,5 +8,10 @@ export interface User {
     email: string
     first_name: string 
     last_name: string
+    tokens?: UserToken
 }
 
+export interface UserState {
+    isLoggedIn: boolean
+    user: User | null
+}

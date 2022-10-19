@@ -10,3 +10,5 @@ export interface ClearMessageAction {
     type: typeof CLEAR_MESSAGE
     payload: string
 }
+
+export type  MessageActionTypes = UpdateMessageAction | ClearMessageAction;

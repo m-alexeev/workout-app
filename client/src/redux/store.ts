@@ -2,10 +2,14 @@ import {configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
 import { filterReducer } from './reducers/filter.reducer';
 import { combineReducers } from 'redux';
+import { userReducer } from './reducers/user.reducer';
+import { messageReducer } from './reducers/message.reducer';
 
 
 const rootReducers = combineReducers({
   filter: filterReducer,
+  user: userReducer,
+  message: messageReducer,
 })
 
 

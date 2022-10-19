@@ -20,14 +20,12 @@ export interface IAppProps {}
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 const App: React.FC<IAppProps> = (props) => {
-  const [isLoading, setLoading] = useState(true);
-  const [isSignedIn, setSignedIn] = useState(false);
   let [fontsLoaded] = useFonts(type);
 
   const { user } = useAuthentication();
 
   if (!fontsLoaded) {
-    return <LoadingScreen setLoading={setLoading} setSignedIn={setSignedIn} />;
+    return <LoadingScreen />;
   }
 
   return (
