@@ -7,11 +7,11 @@ import CustomText from '../../components/atoms/CustomText';
 import LinkText from '../../components/atoms/LinkText';
 import SocialButton from '../../components/atoms/SocialButton';
 import { useTheme } from '../../contexts/theme';
-import firebase from 'firebase/compat/app';
-import "firebase/compat/auth";
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthStackParamList, RootStackParamList } from '../../types/navigation';
 import { CompositeNavigationProp } from '@react-navigation/native';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import {login} from "../../redux/actions/auth.actions";
 
 type LoginScreenNavProp = CompositeNavigationProp<
 	NativeStackNavigationProp<RootStackParamList, "AuthStackRoute">,
@@ -28,9 +28,11 @@ const LoginScreen: React.FC<ILoginScreenProps> = ({ navigation }) => {
 	const [errors, setErrors] = useState({ 'email': undefined, 'password': undefined });
 	const [loading, setLoading] = useState(false);
 
+	const dispatch = useAppDispatch();
+	const error = useAppSelector(state => state.message);
+
 	const validate = (): boolean => {
 		Keyboard.dismiss();
-
 		//reset errors
 		handleError("", "email");
 		handleError("", "password");
@@ -54,19 +56,13 @@ const LoginScreen: React.FC<ILoginScreenProps> = ({ navigation }) => {
 		setInputs(prevState => ({ ...prevState, [input]: text }));
 	}
 
-	const login = () => {
+	const handleLogin = () => {
 		const valid = validate();
 		if (valid) {
 			setLoading(true);
 			//Login
-			firebase.auth().signInWithEmailAndPassword(inputs.email, inputs.password).then((user) => {
-				// Save user to local storage ? 
-			}).catch((error) => {
-				console.log(error);
-				console.log(error.code);
-			}).finally(() => {
-				setLoading(false);
-			})
+			dispatch(login(inputs.email, inputs.password));
+			setLoading(false);
 		}
 	}
 
@@ -94,7 +90,7 @@ const LoginScreen: React.FC<ILoginScreenProps> = ({ navigation }) => {
 					error={errors.password}
 					password
 				/>
-				<Button_C title='Login' loading={loading} onPress={login} type='primary'/>
+				<Button_C title='Login' loading={loading} onPress={handleLogin} type='primary'/>
 				<View style={styles.link}>
 					<CustomText>Need an Acount?</CustomText>
 					<LinkText onPress={handleRegisterPress} style={{ marginLeft: 10 }}>

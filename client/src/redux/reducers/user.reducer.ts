@@ -7,6 +7,7 @@ import {
   LOGIN_SUCCESS,
   REGISTER_FAIL,
   REGISTER_SUCCESS,
+  REHYDRATE_FAIL,
 } from "../actions/auth.actiontypes";
 import { UserState } from "../types/auth.types";
 
@@ -53,6 +54,12 @@ export function userReducer(
         ...state,
         isLoggedIn: true,
         user: action.payload
+      }
+    case REHYDRATE_FAIL:
+      return {
+        ...state,
+        isLoggedIn: false,
+        user: null,
       }
   }
   return state;

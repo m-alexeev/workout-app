@@ -11,8 +11,16 @@ import {
   REGISTER_FAIL,
   REGISTER_SUCCESS,
   REHYDRATE,
+  REHYDRATE_FAIL,
 } from "./auth.actiontypes";
 import { SET_MESSAGE, UpdateMessageAction } from "./messages.actiontypes";
+
+const getMessage = (error: any): string => {
+  
+  return (error.response &&
+    error.response.data &&
+    error.response.data.message) || error.message || error.toString();
+}
 
 export const register =
   (email: string, password: string, first_name: string, last_name: string) =>
@@ -31,19 +39,13 @@ export const register =
         return Promise.resolve();
       },
       (error) => {
-        const message =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
         dispatch({
           type: REGISTER_FAIL,
         });
 
         dispatch({
           type: SET_MESSAGE,
-          payload: message,
+          payload: getMessage(error),
         });
 
         return Promise.reject();
@@ -60,26 +62,42 @@ export const login =
           access_token: response.data.access_token,
           refresh_token: response.data.refresh_token,
         };
-        dispatch({
-          type: LOGIN_SUCCESS,
-          payload: userToken,
+        AuthService.fetchUser(userToken.access_token).then((response) => {
+          const user: User = {
+            id: response.data.id,
+            first_name: response.data.first_name,
+            last_name: response.data.last_name,
+            email: response.data.email,
+            tokens: userToken
+          }
+
+          dispatch({
+            type: LOGIN_SUCCESS,
+            payload: user,
+          });
+          
+          return Promise.resolve();
+        }).catch((error)=>{
+          dispatch({
+            type: LOGIN_FAIL,
+          });
+          dispatch({
+            type: SET_MESSAGE,
+            payload: getMessage(error),
+          })
         });
 
         return Promise.resolve();
+        
       },
       (error) => {
-        const message =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
+
         dispatch({
           type: LOGIN_FAIL,
         });
         dispatch({
           type: SET_MESSAGE,
-          payload: message,
+          payload: getMessage(error),
         });
         return Promise.reject();
       }
@@ -96,9 +114,17 @@ export const logout = () => (dispatch: Dispatch<AuthAction>) => {
 
 export const rehydrate = () => (dispatch: Dispatch<AuthRehydateAction>) => {
   AuthService.getCurrentUser().then((user) => {
-    dispatch({
-      type: REHYDRATE,
-      payload: user,
-    });
+    if (user){
+      dispatch({
+        type: REHYDRATE,
+        payload: user,
+      });
+    }
+    else{
+      dispatch({
+        type: REHYDRATE_FAIL,
+        payload: null,
+      })
+    }
   });
 };

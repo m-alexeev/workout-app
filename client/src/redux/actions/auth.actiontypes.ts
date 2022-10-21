@@ -6,6 +6,7 @@ export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAIL = "LOGIN_FAIL";
 export const LOGOUT = "LOGOUT";
 export const REHYDRATE = "REHYDRATE";
+export const REHYDRATE_FAIL = "REHYDRATE_FAIL"
 
 
 export interface AuthPayloadAction {
@@ -18,7 +19,7 @@ export interface AuthAction {
 }
 
 export interface AuthRehydateAction{
-    type: typeof REHYDRATE
+    type: typeof REHYDRATE | typeof REHYDRATE_FAIL
     payload: User | null
 }
 
