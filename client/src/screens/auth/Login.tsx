@@ -1,127 +1,145 @@
-import React, { useState } from 'react';
-import { View,  Keyboard, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import Button_C from '../../components/atoms/Button_C';
-import CustomInputText from '../../components/atoms/CustomInputText';
-import CustomText from '../../components/atoms/CustomText';
-import LinkText from '../../components/atoms/LinkText';
-import SocialButton from '../../components/atoms/SocialButton';
-import { useTheme } from '../../contexts/theme';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { AuthStackParamList, RootStackParamList } from '../../types/navigation';
-import { CompositeNavigationProp } from '@react-navigation/native';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import {login} from "../../redux/actions/auth.actions";
+import React, { useState } from "react";
+import { View, Keyboard, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Button_C from "../../components/atoms/Button_C";
+import CustomInputText from "../../components/atoms/CustomInputText";
+import CustomText from "../../components/atoms/CustomText";
+import LinkText from "../../components/atoms/LinkText";
+import SocialButton from "../../components/atoms/SocialButton";
+import { useTheme } from "../../contexts/theme";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { AuthStackParamList, RootStackParamList } from "../../types/navigation";
+import { CompositeNavigationProp } from "@react-navigation/native";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { login } from "../../redux/actions/auth.actions";
 
 type LoginScreenNavProp = CompositeNavigationProp<
-	NativeStackNavigationProp<RootStackParamList, "AuthStackRoute">,
-	NativeStackNavigationProp<AuthStackParamList, "Login">
+  NativeStackNavigationProp<RootStackParamList, "AuthStackRoute">,
+  NativeStackNavigationProp<AuthStackParamList, "Login">
 >;
 
-export interface ILoginScreenProps  {
-	navigation: LoginScreenNavProp
-};
+export interface ILoginScreenProps {
+  navigation: LoginScreenNavProp;
+}
 
 const LoginScreen: React.FC<ILoginScreenProps> = ({ navigation }) => {
-	const { theme } = useTheme();
-	const [inputs, setInputs] = useState({ 'email': '', 'password': '' })
-	const [errors, setErrors] = useState({ 'email': undefined, 'password': undefined });
-	const [loading, setLoading] = useState(false);
+  const { theme } = useTheme();
+  const [inputs, setInputs] = useState({ email: "", password: "" });
+  const [errors, setErrors] = useState({
+    email: undefined,
+    password: undefined,
+  });
+  const [loading, setLoading] = useState(false);
 
-	const dispatch = useAppDispatch();
-	const error = useAppSelector(state => state.message);
+  const dispatch = useAppDispatch();
+  const error = useAppSelector((state) => state.message);
 
-	const validate = (): boolean => {
-		Keyboard.dismiss();
-		//reset errors
-		handleError("", "email");
-		handleError("", "password");
+  const validate = (): boolean => {
+    Keyboard.dismiss();
+    //reset errors
+    handleError("", "email");
+    handleError("", "password");
 
-		let isValid = true;
-		if (!inputs.email) {
-			handleError("Input Email", "email");
-			isValid = false;
-		}
-		if (!inputs.password) {
-			handleError("Input Password", "password");
-			isValid = false;
-		}
-		return isValid;
-	}
+    let isValid = true;
+    if (!inputs.email) {
+      handleError("Input Email", "email");
+      isValid = false;
+    }
+    if (!inputs.password) {
+      handleError("Input Password", "password");
+      isValid = false;
+    }
+    return isValid;
+  };
 
-	const handleError = (error: string, input: string) => {
-		setErrors(prevState => ({ ...prevState, [input]: error }))
-	}
-	const handleOnChange = (text: string, input: string) => {
-		setInputs(prevState => ({ ...prevState, [input]: text }));
-	}
+  const handleError = (error: string, input: string) => {
+    setErrors((prevState) => ({ ...prevState, [input]: error }));
+  };
+  const handleOnChange = (text: string, input: string) => {
+    setInputs((prevState) => ({ ...prevState, [input]: text }));
+  };
 
-	const handleLogin = () => {
-		const valid = validate();
-		if (valid) {
-			setLoading(true);
-			//Login
-			dispatch(login(inputs.email, inputs.password));
-			setLoading(false);
-		}
-	}
+  const handleLogin = () => {
+    const valid = validate();
+    if (valid) {
+      setLoading(true);
+      //Login
+      dispatch(login(inputs.email, inputs.password)).catch(() => {
+        setLoading(false);
+      });
+    }
+  };
 
-	const handleRegisterPress = () => {
-		navigation.navigate("Register");
-	}
+  const handleRegisterPress = () => {
+    navigation.navigate("Register");
+  };
 
+  return (
+    <SafeAreaView style={{ backgroundColor: theme.background, flex: 1 }}>
+      <View style={{ paddingTop: 50, paddingHorizontal: 20 }}>
+        <CustomText style={{ color: theme.text_primary }}>
+          Login Page
+        </CustomText>
+				{error &&
+				<CustomText style={{color: theme.error}}>
+					{error.message}
+				</CustomText>
+				}
 
-	return (
-		<SafeAreaView style={{ backgroundColor: theme.background, flex: 1, }}>
-			<View style={{ paddingTop: 50, paddingHorizontal: 20 }}>
-				<CustomText style={{ color: theme.text_primary }}>Login Page</CustomText>
-				<CustomInputText
-					onChangeText={text => handleOnChange(text, 'email')}
-					placeholder='Email Address'
-					iconName='email'
-					label='Email'
-					error={errors.email}
-				/>
-				<CustomInputText
-					onChangeText={text => handleOnChange(text, 'password')}
-					placeholder="Password"
-					iconName='lock'
-					label="Password"
-					error={errors.password}
-					password
-				/>
-				<Button_C title='Login' loading={loading} onPress={handleLogin} type='primary'/>
-				<View style={styles.link}>
-					<CustomText>Need an Acount?</CustomText>
-					<LinkText onPress={handleRegisterPress} style={{ marginLeft: 10 }}>
-						Register
-					</LinkText>
-				</View>
-			</View>
-			<View >
-				<CustomText style={{ fontSize: 18, textAlign: 'center' }}>Social Login</CustomText>
-				<View style={styles.socialContainer}>
-					<SocialButton size={25} iconName='google'></SocialButton>
-				</View>
-			</View>
-		</SafeAreaView>
-	)
+        <CustomInputText
+          onChangeText={(text) => handleOnChange(text, "email")}
+          placeholder="Email Address"
+          iconName="email"
+          label="Email"
+          error={errors.email}
+        />
+        <CustomInputText
+          onChangeText={(text) => handleOnChange(text, "password")}
+          placeholder="Password"
+          iconName="lock"
+          label="Password"
+          error={errors.password}
+          password
+        />
+        <Button_C
+          title="Login"
+          loading={loading}
+          onPress={handleLogin}
+          type="primary"
+        />
+        <View style={styles.link}>
+          <CustomText>Need an Acount?</CustomText>
+          <LinkText onPress={handleRegisterPress} style={{ marginLeft: 10 }}>
+            Register
+          </LinkText>
+        </View>
+      </View>
+      <View>
+        <CustomText style={{ fontSize: 18, textAlign: "center" }}>
+          Social Login
+        </CustomText>
+        <View style={styles.socialContainer}>
+          <SocialButton size={25} iconName="google"></SocialButton>
+        </View>
+      </View>
+    </SafeAreaView>
+  );
 };
 
 const styles = StyleSheet.create({
-	link: {
-		flex: 1,
-		flexDirection: "row",
-		marginTop: 15,
-		justifyContent: 'center'
-	},
-	socialContainer: {
-		flex: 1,
-		flexDirection: 'row',
-		marginTop: 10,
-		justifyContent: 'space-evenly',
-		paddingHorizontal: 15,
-	}
-})
+  link: {
+    flex: 1,
+    flexDirection: "row",
+    marginTop: 15,
+    justifyContent: "center",
+  },
+  socialContainer: {
+    flex: 1,
+    flexDirection: "row",
+    marginTop: 10,
+    justifyContent: "space-evenly",
+    paddingHorizontal: 15,
+  },
+});
 
 export default LoginScreen;

@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Dispatch } from "redux";
 import AuthService from "../../services/auth.service";
 import { User, UserToken } from "../types/auth.types";
@@ -70,7 +71,10 @@ export const login =
             email: response.data.email,
             tokens: userToken
           }
-
+          // Save user in local storage
+          AsyncStorage.setItem('user', JSON.stringify(user));
+          
+          // Dispatch successful login 
           dispatch({
             type: LOGIN_SUCCESS,
             payload: user,
