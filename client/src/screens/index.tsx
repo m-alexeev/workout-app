@@ -21,10 +21,6 @@ const RootStackScreen: React.FC = () => {
     dispatch(rehydrate());
   },[])
 
-  useEffect(() => {
-    console.log(user);
-  },[user]);
-
   if (!fontsLoaded) {
     return <LoadingScreen />;
   }

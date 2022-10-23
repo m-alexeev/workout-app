@@ -13,9 +13,6 @@ export interface IAppProps {}
 
 const App: React.FC<IAppProps> = (props) => {
   
-  const user = true;
-  
-  
   return (
     <Provider store={store}>
       <ThemeProvider>
