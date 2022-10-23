@@ -1,9 +1,7 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import "firebase/compat/auth";
 import ThemeProvider from "./src/contexts/theme";
 import SearchProvider from "./src/contexts/search";
-import "./config/firebase";
 import { Provider } from "react-redux";
 import { store } from "./src/redux/store";
 import RootStackScreen from "./src/screens";

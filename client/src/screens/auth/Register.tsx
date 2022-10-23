@@ -22,7 +22,13 @@ const RegisterScreen: React.FC<IRegisterScreenProps> = ({ navigation }) => {
     password: "",
     conf_password: "",
   });
-  const [errors, setErrors] = useState(inputs);
+  const [errors, setErrors] = useState({
+    first_name: undefined,
+    last_name: undefined,
+    email: undefined,
+    password: undefined,
+    conf_password: undefined,
+  });
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
   const message = useAppSelector((state) => state.message);
@@ -32,7 +38,7 @@ const RegisterScreen: React.FC<IRegisterScreenProps> = ({ navigation }) => {
     // Reset errors
     let k: keyof typeof errors;
     for (k in errors) {
-      handleError("", k);
+      handleError(undefined, k);
     }
     let isValid = true;
     if (!inputs.email) {
@@ -43,11 +49,11 @@ const RegisterScreen: React.FC<IRegisterScreenProps> = ({ navigation }) => {
       handleError("Input valid email address", "email");
       isValid = false;
     }
-    if (!inputs.password){
+    if (!inputs.password) {
       handleError("Enter password", "password");
       isValid = false;
     }
-    if (!inputs.conf_password){
+    if (!inputs.conf_password) {
       handleError("Confirm password", "conf_password");
       isValid = false;
     }
@@ -77,12 +83,13 @@ const RegisterScreen: React.FC<IRegisterScreenProps> = ({ navigation }) => {
           inputs.first_name,
           inputs.last_name
         )
-      ).then(() => {
-        navigation.replace("Login");
-      }
-      ).catch(() => {
-        setLoading(false);
-      });
+      )
+        .then(() => {
+          navigation.replace("Login");
+        })
+        .catch(() => {
+          setLoading(false);
+        });
     }
   };
 
@@ -90,14 +97,17 @@ const RegisterScreen: React.FC<IRegisterScreenProps> = ({ navigation }) => {
     setInput((prevState) => ({ ...prevState, [input]: text }));
   };
 
-  const handleError = (error: string, input: keyof typeof errors) => {
+  const handleError = (
+    error: string | undefined,
+    input: keyof typeof inputs
+  ) => {
     setErrors((prevState) => ({ ...prevState, [input]: error }));
   };
 
   return (
     <SafeAreaView style={{ backgroundColor: theme.background, flex: 1 }}>
       <View style={styles.container}>
-        <CustomText style={{fontSize: 18, color: theme.text_primary }}>
+        <CustomText style={{ fontSize: 18, color: theme.text_primary }}>
           Register
         </CustomText>
         {message && (
@@ -141,12 +151,19 @@ const RegisterScreen: React.FC<IRegisterScreenProps> = ({ navigation }) => {
           password
           onChangeText={(text) => handleOnChange(text, "conf_password")}
           error={errors.conf_password}
-
         />
-        <Button_C title="Register" type="primary" onPress={handleLogin} loading={loading}/>
+        <Button_C
+          title="Register"
+          type="primary"
+          onPress={handleLogin}
+          loading={loading}
+        />
       </View>
       <View style={{ flex: 1 }}>
-        <LinkText style={styles.redirect} onPress={() => navigation.navigate("Login")}>
+        <LinkText
+          style={styles.redirect}
+          onPress={() => navigation.navigate("Login")}
+        >
           Login Screen
         </LinkText>
       </View>

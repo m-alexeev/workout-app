@@ -37,8 +37,8 @@ const LoginScreen: React.FC<ILoginScreenProps> = ({ navigation }) => {
   const validate = (): boolean => {
     Keyboard.dismiss();
     //reset errors
-    handleError("", "email");
-    handleError("", "password");
+    handleError(undefined, "email");
+    handleError(undefined, "password");
 
     let isValid = true;
     if (!inputs.email) {
@@ -52,7 +52,7 @@ const LoginScreen: React.FC<ILoginScreenProps> = ({ navigation }) => {
     return isValid;
   };
 
-  const handleError = (error: string, input: string) => {
+  const handleError = (error: string | undefined, input: string) => {
     setErrors((prevState) => ({ ...prevState, [input]: error }));
   };
   const handleOnChange = (text: string, input: string) => {
@@ -64,11 +64,13 @@ const LoginScreen: React.FC<ILoginScreenProps> = ({ navigation }) => {
     if (valid) {
       setLoading(true);
       //Login
-      dispatch(login(inputs.email, inputs.password)).catch(() => {
-        setLoading(false);
-      });
+      // dispatch(login(inputs.email, inputs.password)).catch(() => {
+      //   setLoading(false);
+      // });
+      setLoading(false);
     }
   };
+
 
   const handleRegisterPress = () => {
     navigation.navigate("Register");
@@ -77,28 +79,28 @@ const LoginScreen: React.FC<ILoginScreenProps> = ({ navigation }) => {
   return (
     <SafeAreaView style={{ backgroundColor: theme.background, flex: 1 }}>
       <View style={{ paddingTop: 50, paddingHorizontal: 20 }}>
-        <CustomText style={{fontSize: 18, color: theme.text_primary }}>
+        <CustomText style={{ fontSize: 18, color: theme.text_primary }}>
           Login
         </CustomText>
-				{error &&
-				<CustomText style={{color: theme.error}}>
-					{error.message}
-				</CustomText>
-				}
+        {error && (
+          <CustomText style={{ color: theme.error }}>
+            {error.message}
+          </CustomText>
+        )}
 
         <CustomInputText
           onChangeText={(text) => handleOnChange(text, "email")}
           placeholder="Email Address"
           iconName="mail"
           label="Email"
-          error={errors.email}
+          error={errors.email }
         />
         <CustomInputText
           onChangeText={(text) => handleOnChange(text, "password")}
           placeholder="Password"
           iconName="lock-closed"
           label="Password"
-          error={errors.password}
+          error={errors.password }
           password
         />
         <Button_C
@@ -112,14 +114,6 @@ const LoginScreen: React.FC<ILoginScreenProps> = ({ navigation }) => {
           <LinkText onPress={handleRegisterPress} style={{ marginLeft: 10 }}>
             Register
           </LinkText>
-        </View>
-      </View>
-      <View>
-        <CustomText style={{ fontSize: 18, textAlign: "center" }}>
-          Social Login
-        </CustomText>
-        <View style={styles.socialContainer}>
-          <SocialButton size={25} iconName="google"></SocialButton>
         </View>
       </View>
     </SafeAreaView>

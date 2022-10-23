@@ -3,15 +3,16 @@ import { Message } from "../types/message.types";
 
 const inititialState: Message = {
   message: "",
+  type: "none",
 };
 
 export function messageReducer(state: Message = inititialState, action: MessageActionTypes): Message {
   const {type, payload} = action;
   switch(type){
     case SET_MESSAGE: 
-      return {message: payload};
+      return payload;
     case CLEAR_MESSAGE:
-      return {message: ""};
+      return {message: "", type: "none"};
     default: 
       return state;
   }

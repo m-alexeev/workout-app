@@ -29,7 +29,6 @@ export default {
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.bouncyknight.workout",
-      // "expo.android.googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -38,12 +37,6 @@ export default {
       "eas": {
         "projectId": "0cd85eb8-b6e3-4547-bfb9-649bb073c49b"
       },
-      firebaseApiKey: process.env.FIREBASE_API_KEY,
-      firebaseAuthDomain: process.env.FIREBASE_AUTH_DOMAIN,
-      firebaseProjectId: process.env.FIREBASE_PROJECT_ID,
-      firebaseStorageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-      firebaseMessagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
-      firebaseAppId: process.env.FIREBASE_APP_ID
     },
     "plugins": ["@react-native-google-signin/google-signin"]   
   }
