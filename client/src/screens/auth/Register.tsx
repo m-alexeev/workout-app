@@ -39,7 +39,7 @@ const RegisterScreen: React.FC<IRegisterScreenProps> = ({ navigation }) => {
       handleError("Input Email", "email");
       isValid = false;
     }
-    if (!inputs.email.match("/^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/")) {
+    if (!!inputs.email.match(/^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/)) {
       handleError("Input valid email address", "email");
       isValid = false;
     }
@@ -77,6 +77,9 @@ const RegisterScreen: React.FC<IRegisterScreenProps> = ({ navigation }) => {
           inputs.first_name,
           inputs.last_name
         )
+      ).then(() => {
+        navigation.replace("Login");
+      }
       ).catch(() => {
         setLoading(false);
       });
@@ -94,8 +97,8 @@ const RegisterScreen: React.FC<IRegisterScreenProps> = ({ navigation }) => {
   return (
     <SafeAreaView style={{ backgroundColor: theme.background, flex: 1 }}>
       <View style={styles.container}>
-        <CustomText style={{ color: theme.text_primary }}>
-          Register Screen
+        <CustomText style={{fontSize: 18, color: theme.text_primary }}>
+          Register
         </CustomText>
         {message && (
           <CustomText style={{ color: theme.error }}>
@@ -105,18 +108,20 @@ const RegisterScreen: React.FC<IRegisterScreenProps> = ({ navigation }) => {
         <CustomInputText
           placeholder="First Name"
           label="First Name"
+          iconName="person"
           onChangeText={(text) => handleOnChange(text, "first_name")}
           error={errors.first_name}
         />
         <CustomInputText
           placeholder="Last Name"
           label="Last Name"
+          iconName="person"
           onChangeText={(text) => handleOnChange(text, "last_name")}
           error={errors.last_name}
         />
         <CustomInputText
           placeholder="Email"
-          iconName="email"
+          iconName="mail"
           label="Email"
           onChangeText={(text) => handleOnChange(text, "email")}
           error={errors.email}
@@ -124,7 +129,7 @@ const RegisterScreen: React.FC<IRegisterScreenProps> = ({ navigation }) => {
         <CustomInputText
           placeholder="Password"
           label="Password"
-          iconName="lock"
+          iconName="lock-closed"
           password
           onChangeText={(text) => handleOnChange(text, "password")}
           error={errors.password}
@@ -132,13 +137,13 @@ const RegisterScreen: React.FC<IRegisterScreenProps> = ({ navigation }) => {
         <CustomInputText
           placeholder="Confirm Password"
           label="Confirm Password"
-          iconName="lock"
+          iconName="lock-closed"
           password
           onChangeText={(text) => handleOnChange(text, "conf_password")}
           error={errors.conf_password}
 
         />
-        <Button_C title="Register" type="primary" onPress={handleLogin} />
+        <Button_C title="Register" type="primary" onPress={handleLogin} loading={loading}/>
       </View>
       <View style={{ flex: 1 }}>
         <LinkText style={styles.redirect} onPress={() => navigation.navigate("Login")}>

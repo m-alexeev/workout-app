@@ -77,8 +77,8 @@ const LoginScreen: React.FC<ILoginScreenProps> = ({ navigation }) => {
   return (
     <SafeAreaView style={{ backgroundColor: theme.background, flex: 1 }}>
       <View style={{ paddingTop: 50, paddingHorizontal: 20 }}>
-        <CustomText style={{ color: theme.text_primary }}>
-          Login Page
+        <CustomText style={{fontSize: 18, color: theme.text_primary }}>
+          Login
         </CustomText>
 				{error &&
 				<CustomText style={{color: theme.error}}>
@@ -89,14 +89,14 @@ const LoginScreen: React.FC<ILoginScreenProps> = ({ navigation }) => {
         <CustomInputText
           onChangeText={(text) => handleOnChange(text, "email")}
           placeholder="Email Address"
-          iconName="email"
+          iconName="mail"
           label="Email"
           error={errors.email}
         />
         <CustomInputText
           onChangeText={(text) => handleOnChange(text, "password")}
           placeholder="Password"
-          iconName="lock"
+          iconName="lock-closed"
           label="Password"
           error={errors.password}
           password

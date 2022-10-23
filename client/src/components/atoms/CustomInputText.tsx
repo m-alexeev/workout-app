@@ -3,11 +3,12 @@ import { View, TextInput, StyleSheet, TextInputProps, TextStyle } from 'react-na
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import CustomText from './CustomText';
 import { useTheme } from '../../contexts/theme';
+import { Ionicons } from '@expo/vector-icons';
 
 export interface ICustomTextInputProps extends TextInputProps {
   style?: TextStyle | TextStyle[]
   label?: string,
-  iconName?: string,
+  iconName?: keyof typeof Ionicons.glyphMap,
   password?: boolean,
   error?: string,
   onFocus?: () => {},
@@ -36,7 +37,7 @@ const CustomInputText: React.FC<ICustomTextInputProps> = (
               { borderColor: error ? theme.primary: isFocused ? theme.primary : theme.secondary }
             ]}>
         {iconName &&
-          <Icon name={iconName} style={{fontSize:22, marginRight: 22}} color={theme.text_primary} />
+          <Ionicons name={iconName} style={{fontSize:22, marginRight: 22}} color={theme.text_primary} />
         }
         <TextInput
           onFocus={() => {
@@ -52,7 +53,7 @@ const CustomInputText: React.FC<ICustomTextInputProps> = (
           style={[styles.input, passedStyles, { color: theme.text_primary }]}
         />
         {password && (
-          <Icon
+          <Ionicons
             style={{fontSize: 22}}
             color={theme.text_primary}
             onPress={() => setShowPassword(!showPassword)}
