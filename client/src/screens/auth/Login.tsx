@@ -64,9 +64,9 @@ const LoginScreen: React.FC<ILoginScreenProps> = ({ navigation }) => {
     if (valid) {
       setLoading(true);
       //Login
-      // dispatch(login(inputs.email, inputs.password)).catch(() => {
-      //   setLoading(false);
-      // });
+      dispatch(login(inputs.email, inputs.password)).catch(() => {
+        setLoading(false);
+      });
       setLoading(false);
     }
   };

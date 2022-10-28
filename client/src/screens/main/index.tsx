@@ -7,6 +7,7 @@ import { useTheme } from "../../contexts/theme";
 import WorkoutPage from "./Workout";
 import ExerciseScreenStack from "./exercises_screens/ExerciseStack";
 import { Ionicons } from "@expo/vector-icons";
+import ProfileScreenStack from "./profile/ProfileStack";
 
 const MainBottomTabs = createBottomTabNavigator<MainBottomTabParamList>();
 
@@ -17,7 +18,7 @@ const MainStackScreen: React.FC<IMainStackInterface> = (props) => {
 
   return (
     <MainBottomTabs.Navigator
-      initialRouteName="Exercises"
+      initialRouteName="Profile"
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: theme.primary,
@@ -39,15 +40,15 @@ const MainStackScreen: React.FC<IMainStackInterface> = (props) => {
           ),
         }}
       />
-        <MainBottomTabs.Screen
-          name="Exercises"
-          component={ExerciseScreenStack}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons color={color} size={size} name="barbell" />
-            ),
-          }}
-        />
+      <MainBottomTabs.Screen
+        name="Exercises"
+        component={ExerciseScreenStack}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons color={color} size={size} name="barbell" />
+          ),
+        }}
+      />
       <MainBottomTabs.Screen
         name="Statistics"
         component={StatisticsPage}
@@ -63,6 +64,15 @@ const MainStackScreen: React.FC<IMainStackInterface> = (props) => {
         options={{
           tabBarIcon: ({ color, size }) => (
             <Ionicons color={color} size={size} name="add-circle" />
+          ),
+        }}
+      />
+      <MainBottomTabs.Screen
+        name="Profile"
+        component={ProfileScreenStack}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons color={color} size={size} name="person" />
           ),
         }}
       />

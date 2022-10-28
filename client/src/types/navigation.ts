@@ -32,7 +32,7 @@ export type RootStackParamList = {
 
 export type MainBottomTabParamList = {
   Home: undefined,
-  Profile: undefined,
+  Profile: NavigatorScreenParams<ProfileStackParamList>,
   Exercises: undefined,
   Statistics: undefined,
   Workout: undefined,
@@ -44,6 +44,7 @@ export type ExercisesStackParamList = {
   FilterModal: undefined,
 }
 
+
 export type ExerciseDetailsParamList = {
   About: undefined, 
   History: undefined,
@@ -51,6 +52,13 @@ export type ExerciseDetailsParamList = {
   Records: undefined,
 };
 
+export type ProfileStackParamList = {
+  ProfileLanding: undefined,
+  Exercises: undefined, 
+  Workouts: undefined,
+  Measurements: undefined,
+  Records: undefined,
+}
 
 export type AuthStackParamList  = {
   Login: undefined, 
