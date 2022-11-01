@@ -11,6 +11,7 @@ import ExercisesPage from "./Exercises";
 import IconButton from "../../../components/atoms/IconButton";
 import { StyleSheet } from "react-native";
 import FilterModal from "./FilterModal";
+import ExerciseCreate from "./ExerciseCreate";
 
 const ExerciseStack = createNativeStackNavigator<ExercisesStackParamList>();
 
@@ -39,6 +40,7 @@ const ExerciseScreenStack: React.FC<IExerciseScreenStackProps> = (props) => {
           style={styles.icons}
           iconName="md-add"
           size={18}
+          onPress={() => props.navigation.navigate("ExerciseCreate")}
         ></IconButton>
       </>
     );
@@ -66,6 +68,13 @@ const ExerciseScreenStack: React.FC<IExerciseScreenStackProps> = (props) => {
           component={ExerciseDetailsScreenStack}
           options={{
             header: (props) => <TitleBar title="Details" {...props} />,
+          }}
+        />
+        <ExerciseStack.Screen
+          name="ExerciseCreate"
+          component={ExerciseCreate}
+          options={{
+            header: (props) => <TitleBar title="New" {...props} />,
           }}
         />
       </ExerciseStack.Group>

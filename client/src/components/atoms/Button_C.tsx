@@ -25,7 +25,7 @@ const Button_C: React.FC<IButtonProps> = ({
   const { theme } = useTheme();
   let theme_color = theme.primary;
 
-  // const passedStyles = Array.isArray(style) ? Object.assign({}, ...style) : style;
+  const passedStyles = Array.isArray(style) ? Object.assign({}, ...style) : style;
 
   switch (type) {
     case "secondary":
@@ -37,7 +37,7 @@ const Button_C: React.FC<IButtonProps> = ({
     <TouchableOpacity
       disabled={loading}
       {...props}
-      style={[styles.button, { backgroundColor: theme_color }]}
+      style={[styles.button, passedStyles, { backgroundColor: theme_color }]}
     >
       {loading && (
         <ActivityIndicator

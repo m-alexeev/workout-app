@@ -1,7 +1,7 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React from "react";
-import { Button, Modal, StyleSheet, View } from "react-native";
-import Button_C from "../../../components/atoms/Button_C";
+import { StyleSheet, View } from "react-native";
+import { Modal, Portal, Button, Text } from "react-native-paper";
 import CustomText from "../../../components/atoms/CustomText";
 import { useTheme } from "../../../contexts/theme";
 import { ExercisesStackParamList } from "../../../types/navigation";
@@ -25,39 +25,44 @@ const FilterModal: React.FC<IFilterModalProps> = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <Portal>
         <Modal
-          animationType="fade"
           visible={true}
-          onRequestClose={() => {
+          onDismiss={() => {
             navigation.goBack();
           }}
-          transparent
         >
-          <View style={{flexDirection:'column', backgroundColor: theme.background }}>
-            <CustomText>Filter</CustomText>
-            <CustomText>Exercise Types</CustomText>
+          <View
+            style={{
+              flexDirection: "column",
+              backgroundColor: theme.background,
+            }}
+          >
+            <Text>Filter</Text>
+            <Text>Exercise Types</Text>
             <View style={styles.buttons}>
               {exercise_types.map((type, index) => {
                 return (
                   <View style={{ margin: 5 }} key={index}>
-                    <ToggleButton toggled key={index} title={type} />
+                    <ToggleButton key={index} value={type} />
                   </View>
                 );
               })}
             </View>
-            <CustomText>Muscle Groups</CustomText>
+            <Text>Muscle Groups</Text>
             <View style={styles.buttons}>
               {exercise_muscle_groups.map((type, index) => {
                 return (
                   <View style={{ margin: 5 }} key={index}>
-                    <ToggleButton toggled key={index} title={type} />
+                    <ToggleButton  key={index} value={type} />
                   </View>
                 );
               })}
             </View>
-            <Button_C title="Close" onPress={() => navigation.goBack()} />
+            <Button mode="elevated" onPress={() => navigation.goBack()}>Close</Button>
           </View>
         </Modal>
+      </Portal>
     </View>
   );
 };
@@ -68,12 +73,12 @@ const styles = StyleSheet.create({
     height: "100%",
     justifyContent: "center",
     alignItems: "center",
-    marginVertical: 'auto',
+    marginVertical: "auto",
     padding: 25,
     backgroundColor: "#111111EE",
   },
   buttons: {
-    flexDirection:"row" ,
+    flexDirection: "row",
     flexWrap: "wrap",
   },
 });

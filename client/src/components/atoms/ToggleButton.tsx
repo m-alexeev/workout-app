@@ -1,59 +1,39 @@
-import { Ionicons } from "@expo/vector-icons";
-import React from "react";
-import {
-  ButtonProps,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  ViewStyle,
-} from "react-native";
-import { useTheme } from "../../contexts/theme";
-import CustomText from "./CustomText";
+import React, { useState } from "react";
+import { Text, StyleSheet, View } from "react-native";
+import { Checkbox, ToggleButtonProps } from "react-native-paper";
 
-export interface IToggleButtonProps extends ButtonProps {
-  type?: "primary" | "secondary";
-  style?: ViewStyle | ViewStyle[];
-  toggled: boolean
+export interface IToggleButtonProps extends ToggleButtonProps {
+  value: string;
 }
 
-const ToggleButton: React.FC<IToggleButtonProps> = ({
-  type,
-  style,
-  title,
-  toggled,
-  ...props
-}) => {
-  const { theme } = useTheme();
-  let theme_color = theme.surface;
+const ToggleButton: React.FC<IToggleButtonProps> = ({ value, ...props }) => {
+  const [status, setStatus] = useState(false);
 
-  switch (type) {
-    case "secondary":
-      theme_color = theme.secondary;
-      break;
-  }
+  const onToggle = () => {
+    setStatus(!status);
+  };
 
   return (
-    <TouchableOpacity
-      {...props}
-      style={[styles.button, { backgroundColor: theme_color, borderColor: theme.primary}]}
-    >
-      {toggled &&
-        <Ionicons name='checkmark' color={theme.primary} size={18}/>
-      }
-      <CustomText style={{fontSize: 12}}>{title}</CustomText>
-    </TouchableOpacity>
+    <View style={styles.button}>
+      <Text>{value}</Text>
+      <Checkbox
+        {...props}
+        status={status ? "checked" : "unchecked"}
+        onPress={onToggle}
+      ></Checkbox>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   button: {
-    borderWidth: 2, 
+    borderWidth: 2,
     borderRadius: 20,
-    flexDirection: 'row', 
+    flexDirection: "row",
     paddingHorizontal: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 'auto',
+    justifyContent: "center",
+    alignItems: "center",
+    margin: "auto",
   },
 });
 

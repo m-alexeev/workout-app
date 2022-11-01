@@ -18,30 +18,36 @@ const IconLink: React.FC<IIconLinkProps> = ({ text, icon, ...props }) => {
   const { theme } = useTheme();
 
   return (
-    <TouchableOpacity {...props} style={styles.container}>
-      <View style={styles.main}>
-        <View style={[styles.icon, { backgroundColor: theme.surface }]}>
-          <Ionicons size={24} color={theme.text_primary} name={icon}></Ionicons>
+    <TouchableOpacity {...props}>
+      <View style={styles.container}>
+        <View style={styles.main}>
+          <View style={[styles.icon, { backgroundColor: theme.surface }]}>
+            <Ionicons
+              size={24}
+              color={theme.text_primary}
+              name={icon}
+            ></Ionicons>
+          </View>
+          <CustomText style={[styles.text, {}]}>{text}</CustomText>
         </View>
-        <CustomText style={[styles.text, {}]}>{text}</CustomText>
-      </View>
-      <View style={styles.chevron}>
-        <Ionicons
-          style={{opacity: 0.7}}
-          size={20}
-          name="md-chevron-forward"
-          color={theme.text_primary}
-        />
+        <View style={styles.chevron}>
+          <Ionicons
+            style={{ opacity: 0.7 }}
+            size={20}
+            name="md-chevron-forward"
+            color={theme.text_primary}
+          />
+        </View>
       </View>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {flexDirection: 'row', justifyContent:'space-between'},
+  container: { flexDirection: "row", justifyContent: "space-between" },
   main: {
-    alignItems: 'center',
-    flexDirection: 'row',
+    alignItems: "center",
+    flexDirection: "row",
   },
   icon: {
     width: 50,
@@ -56,7 +62,7 @@ const styles = StyleSheet.create({
     marginStart: 20,
   },
   chevron: {
-    justifyContent: 'center',
+    justifyContent: "center",
     marginEnd: 10,
   },
 });
