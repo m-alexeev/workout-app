@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 import { Text, StyleSheet, View } from "react-native";
-import { Checkbox, ToggleButtonProps } from "react-native-paper";
+import { Checkbox, CheckboxProps } from "react-native-paper";
+import { exerciseMuscleGroup, exerciseType } from "../../types/exercise";
 
-export interface IToggleButtonProps extends ToggleButtonProps {
-  value: string;
+export interface ICheckboxButtonProps
+  extends Omit<CheckboxProps, "theme" | "status"> {
+  value: exerciseType | exerciseMuscleGroup;
 }
 
-const ToggleButton: React.FC<IToggleButtonProps> = ({ value, ...props }) => {
+const CheckboxButton: React.FC<ICheckboxButtonProps> = ({
+  value,
+  ...props
+}) => {
   const [status, setStatus] = useState(false);
 
   const onToggle = () => {
@@ -37,4 +42,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ToggleButton;
+export default CheckboxButton;

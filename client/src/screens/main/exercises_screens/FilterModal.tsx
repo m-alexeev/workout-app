@@ -9,7 +9,7 @@ import {
   exercise_muscle_groups,
   exercise_types,
 } from "../../../models/exercise_list";
-import ToggleButton from "../../../components/atoms/ToggleButton";
+import CheckboxButton from "../../../components/atoms/ToggleButton";
 
 type FilterModalNavProp = NativeStackNavigationProp<
   ExercisesStackParamList,
@@ -44,7 +44,7 @@ const FilterModal: React.FC<IFilterModalProps> = ({ navigation }) => {
               {exercise_types.map((type, index) => {
                 return (
                   <View style={{ margin: 5 }} key={index}>
-                    <ToggleButton key={index} value={type} />
+                    <CheckboxButton key={index} value={type} />
                   </View>
                 );
               })}
@@ -54,7 +54,7 @@ const FilterModal: React.FC<IFilterModalProps> = ({ navigation }) => {
               {exercise_muscle_groups.map((type, index) => {
                 return (
                   <View style={{ margin: 5 }} key={index}>
-                    <ToggleButton  key={index} value={type} />
+                    <CheckboxButton  key={index} value={type} />
                   </View>
                 );
               })}
