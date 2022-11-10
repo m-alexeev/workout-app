@@ -8,7 +8,7 @@ import { useTheme } from "../../../contexts/theme";
 import { ExercisesStackParamList } from "../../../types/navigation";
 import ExerciseDetailsScreenStack from "./details/DetailsStack";
 import ExercisesPage from "./Exercises";
-import IconButton from "../../../components/atoms/IconButton";
+import { IconButton} from "react-native-paper";
 import { StyleSheet } from "react-native";
 import FilterModal from "./FilterModal";
 import ExerciseCreate from "./ExerciseCreate";
@@ -32,14 +32,12 @@ const ExerciseScreenStack: React.FC<IExerciseScreenStackProps> = (props) => {
       <>
         <IconButton
           style={styles.icons}
-          iconName="filter"
-          size={18}
+          icon="filter"
           onPress={() => props.navigation.navigate("FilterModal")}
         ></IconButton>
         <IconButton
           style={styles.icons}
-          iconName="md-add"
-          size={18}
+          icon="plus"
           onPress={() => props.navigation.navigate("ExerciseCreate")}
         ></IconButton>
       </>

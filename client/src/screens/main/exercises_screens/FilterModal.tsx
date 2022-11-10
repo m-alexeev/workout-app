@@ -1,7 +1,7 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { Modal, Portal, Button, Text } from "react-native-paper";
+import { Modal, Portal, Button, Text, Chip } from "react-native-paper";
 import { useTheme } from "../../../contexts/theme";
 import { ExercisesStackParamList } from "../../../types/navigation";
 import {
@@ -42,9 +42,9 @@ const FilterModal: React.FC<IFilterModalProps> = ({ navigation }) => {
             <View style={styles.buttons}>
               {exercise_types.map((type, index) => {
                 return (
-                  <View style={{ margin: 5 }} key={index}>
-                    <CheckboxButton key={index} value={type} />
-                  </View>
+                  <Chip key={index} style={{ margin: 5 }} onPress={() => console.log(type)}>
+                    {type}
+                  </Chip>
                 );
               })}
             </View>
@@ -52,13 +52,15 @@ const FilterModal: React.FC<IFilterModalProps> = ({ navigation }) => {
             <View style={styles.buttons}>
               {exercise_muscle_groups.map((type, index) => {
                 return (
-                  <View style={{ margin: 5 }} key={index}>
-                    <CheckboxButton  key={index} value={type} />
-                  </View>
+                  <Chip key={index} style={{ margin: 5 }} onPress={() => console.log(type)}>
+                    {type}
+                  </Chip>
                 );
               })}
             </View>
-            <Button mode="elevated" onPress={() => navigation.goBack()}>Close</Button>
+            <Button mode="elevated" onPress={() => navigation.goBack()}>
+              Close
+            </Button>
           </View>
         </Modal>
       </Portal>

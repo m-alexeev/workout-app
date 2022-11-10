@@ -76,10 +76,7 @@ const TitleBar: React.FC<ITitleBarProps> = ({
             <Appbar.BackAction onPress={() => navigation.goBack()} />
           )}
           <Appbar.Content title={title} />
-          <Appbar.Action
-            icon="plus"
-            onPress={()=>{}}
-          />
+          {titleBarOptions }
           <Appbar.Action
             icon="magnify"
             onPress={() => setShowSearchBar(true)}

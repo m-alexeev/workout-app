@@ -1,8 +1,9 @@
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { User } from "../redux/types/auth.types";
+import {Buffer} from 'buffer';
 
-const API_URL = "http://localhost:5000/api/";
+const API_URL = "http://192.168.0.16:5000/api/";
 
 class AuthService {
   login(email: string, password: string) {
