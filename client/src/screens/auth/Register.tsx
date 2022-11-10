@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, SafeAreaView, StyleSheet, Keyboard } from "react-native";
-import Button_C from "../../components/atoms/Button_C";
+import { Button } from "react-native-paper";
 import CustomInputText from "../../components/atoms/CustomInputText";
 import CustomText from "../../components/atoms/CustomText";
 import LinkText from "../../components/atoms/LinkText";
@@ -152,12 +152,9 @@ const RegisterScreen: React.FC<IRegisterScreenProps> = ({ navigation }) => {
           onChangeText={(text) => handleOnChange(text, "conf_password")}
           error={errors.conf_password}
         />
-        <Button_C
-          title="Register"
-          type="primary"
-          onPress={handleLogin}
-          loading={loading}
-        />
+        <Button onPress={handleLogin} loading={loading} mode="contained-tonal">
+          Register
+        </Button>
       </View>
       <View style={{ flex: 1 }}>
         <LinkText

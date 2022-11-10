@@ -1,5 +1,5 @@
-import { DefaultTheme, DarkTheme } from "@react-navigation/native";
-import { MD3Theme, MD3DarkTheme, MD3LightTheme } from "react-native-paper";
+import { MD3Theme, MD3DarkTheme, MD3LightTheme, configureFonts } from "react-native-paper";
+import {fontConfig} from './fonts';
 
 interface IThemeInterface {
   mode: 'dark' | 'light'
@@ -16,6 +16,7 @@ interface IThemeInterface {
 
 const MaterialDarkTheme: MD3Theme = {
   ...MD3DarkTheme, 
+  roundness: 3,
   colors:{
     primary: "rgb(190, 194, 255)",
     onPrimary: "rgb(0, 1, 172)",
@@ -57,7 +58,7 @@ const MaterialDarkTheme: MD3Theme = {
     surfaceDisabled: "rgba(229, 225, 230, 0.12)",
     onSurfaceDisabled: "rgba(229, 225, 230, 0.38)",
     backdrop: "rgba(48, 48, 56, 0.4)"
-  }
+  },
 } 
 
 const MaterialLightTheme: MD3Theme = {
@@ -103,7 +104,7 @@ const MaterialLightTheme: MD3Theme = {
     surfaceDisabled: "rgba(27, 27, 31, 0.12)",
     onSurfaceDisabled: "rgba(27, 27, 31, 0.38)",
     backdrop: "rgba(48, 48, 56, 0.4)"
-  }
+  },
 }
 
 
@@ -134,4 +135,4 @@ const CustomLightTheme: IThemeInterface = {
     text_secondary: "#333",
   }
 
-export {IThemeInterface, CustomDarkTheme, CustomLightTheme};
+export {IThemeInterface, CustomDarkTheme, CustomLightTheme, MaterialDarkTheme, MaterialLightTheme};

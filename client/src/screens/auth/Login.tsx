@@ -1,17 +1,16 @@
 import React, { useState } from "react";
 import { View, Keyboard, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Button_C from "../../components/atoms/Button_C";
 import CustomInputText from "../../components/atoms/CustomInputText";
 import CustomText from "../../components/atoms/CustomText";
 import LinkText from "../../components/atoms/LinkText";
-import SocialButton from "../../components/atoms/SocialButton";
 import { useTheme } from "../../contexts/theme";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AuthStackParamList, RootStackParamList } from "../../types/navigation";
 import { CompositeNavigationProp } from "@react-navigation/native";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { login } from "../../redux/actions/auth.actions";
+import { Button } from "react-native-paper";
 
 type LoginScreenNavProp = CompositeNavigationProp<
   NativeStackNavigationProp<RootStackParamList, "AuthStackRoute">,
@@ -71,7 +70,6 @@ const LoginScreen: React.FC<ILoginScreenProps> = ({ navigation }) => {
     }
   };
 
-
   const handleRegisterPress = () => {
     navigation.navigate("Register");
   };
@@ -93,22 +91,19 @@ const LoginScreen: React.FC<ILoginScreenProps> = ({ navigation }) => {
           placeholder="Email Address"
           iconName="mail"
           label="Email"
-          error={errors.email }
+          error={errors.email}
         />
         <CustomInputText
           onChangeText={(text) => handleOnChange(text, "password")}
           placeholder="Password"
           iconName="lock-closed"
           label="Password"
-          error={errors.password }
+          error={errors.password}
           password
         />
-        <Button_C
-          title="Login"
-          loading={loading}
-          onPress={handleLogin}
-          type="primary"
-        />
+        <Button loading={loading} onPress={handleLogin} mode="contained-tonal">
+          Login
+        </Button>
         <View style={styles.link}>
           <CustomText>Need an Acount?</CustomText>
           <LinkText onPress={handleRegisterPress} style={{ marginLeft: 10 }}>

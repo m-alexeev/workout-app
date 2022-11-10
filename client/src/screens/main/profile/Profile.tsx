@@ -2,7 +2,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useState, useEffect } from "react";
 import { StyleSheet } from "react-native";
 import { SafeAreaView, View } from "react-native";
-import Button_C from "../../../components/atoms/Button_C";
+import { Button } from "react-native-paper";
 import CustomText from "../../../components/atoms/CustomText";
 import IconLink from "../../../components/molecules/IconLink";
 import ProfileTitle from "../../../components/organisms/ProfileTitle";
@@ -70,7 +70,13 @@ const ProfileScreen: React.FC<IProfileScreenProps> = ({ navigation }) => {
           text="Workouts"
           onPress={() => navigation.navigate("Workouts")}
         />
-        <Button_C style={{margin: 10}} title="Logout" onPress={handleLogout} />
+        <Button
+          style={{ margin: 10 }}
+          onPress={handleLogout}
+          mode="contained-tonal"
+        >
+          Logout
+        </Button>
       </View>
     </SafeAreaView>
   );

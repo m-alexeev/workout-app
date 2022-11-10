@@ -2,7 +2,6 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Modal, Portal, Button, Text } from "react-native-paper";
-import CustomText from "../../../components/atoms/CustomText";
 import { useTheme } from "../../../contexts/theme";
 import { ExercisesStackParamList } from "../../../types/navigation";
 import {

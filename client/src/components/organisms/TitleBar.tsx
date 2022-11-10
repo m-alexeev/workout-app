@@ -1,11 +1,9 @@
 import { NativeStackHeaderProps } from "@react-navigation/native-stack";
 import React, { SetStateAction, useState } from "react";
-import { StyleSheet, View, Dimensions, SafeAreaView } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { useSearch } from "../../contexts/search";
 import { useTheme } from "../../contexts/theme";
-import CustomText from "../atoms/CustomText";
-import IconButton from "../atoms/IconButton";
-import SearchBarInput from "../atoms/SeachBarInput";
+import { Appbar, Searchbar, IconButton } from "react-native-paper";
 
 export interface ITitleBarProps extends NativeStackHeaderProps {
   title: string;
@@ -20,28 +18,40 @@ export interface ITitleBarSearchProps {
 const TitleBarSearch: React.FC<ITitleBarSearchProps> = ({
   setShowSearchBar,
 }) => {
-  const { theme } = useTheme();
-  const { updateSearch } = useSearch();
+  const { searchQuery, updateSearch } = useSearch();
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.surface }]}>
-      <SafeAreaView style={[styles.content, { backgroundColor: theme.surface }]}>
-        <IconButton
-          iconName="arrow-back"
-          size={24}
-          onPress={() => {
-            setShowSearchBar(false);
-            updateSearch("");
-          }}
-        />
-        <View style={{ flex: 1 }}>
-          <SearchBarInput
-            style={{ fontSize: 18 }}
-            onCancel={() => updateSearch("")}
-          ></SearchBarInput>
-        </View>
-      </SafeAreaView>
+    <View style={styles.container}>
+      <IconButton
+        icon="arrow-left"
+        onPress={() => setShowSearchBar(false)}
+      />
+      <Searchbar
+        placeholder="Search"
+        onChangeText={updateSearch}
+        value={searchQuery}
+      ></Searchbar>
     </View>
+    // <View style={[styles.container, { backgroundColor: theme.surface }]}>
+    //   <SafeAreaView
+    //     style={[styles.content, { backgroundColor: theme.surface }]}
+    //   >
+    //     <IconButton
+    //       iconName="arrow-back"
+    //       size={24}
+    //       onPress={() => {
+    //         setShowSearchBar(false);
+    //         updateSearch("");
+    //       }}
+    //     />
+    //     <View style={{ flex: 1 }}>
+    //       <SearchBarInput
+    //         style={{ fontSize: 18 }}
+    //         onCancel={() => updateSearch("")}
+    //       ></SearchBarInput>
+    //     </View>
+    //   </SafeAreaView>
+    // </View>
   );
 };
 
@@ -57,56 +67,77 @@ const TitleBar: React.FC<ITitleBarProps> = ({
   const [showSearchBar, setShowSearchBar] = useState<boolean>(false);
 
   return (
-    <>
+    <Appbar.Header>
       {showSearchBar ? (
         <TitleBarSearch setShowSearchBar={setShowSearchBar} />
       ) : (
-        <View style={[styles.container, { backgroundColor: theme.surface }]}>
-          <SafeAreaView style={styles.content}>
-            {props.back && (
-              <IconButton
-                style={{
-                  justifyContent: "center",
-                  marginVertical: "auto",
-                  marginRight: 5,
-                }}
-                iconName="arrow-back"
-                size={24}
-                onPress={() => navigation.goBack()}
-              />
-            )}
-            <CustomText style={[styles.title, { color: theme.text_primary }]}>
-              {title}
-            </CustomText>
-            <View style={styles.icons_container}>
-              <View
-                style={[
-                  styles.icons,
-                  { maxWidth: Dimensions.get("window").width / 2 },
-                ]}
-              >
-                {search && (
-                  <IconButton
-                    style={styles.search_icon}
-                    size={18}
-                    iconName={showSearchBar ? "close" : "search"}
-                    onPress={() => {
-                      setShowSearchBar(!showSearchBar);
-                    }}
-                  />
-                )}
-                {titleBarOptions}
-              </View>
-            </View>
-          </SafeAreaView>
-        </View>
+        <>
+          {props.back && (
+            <Appbar.BackAction onPress={() => navigation.goBack()} />
+          )}
+          <Appbar.Content title={title} />
+          <Appbar.Action
+            icon="plus"
+            onPress={()=>{}}
+          />
+          <Appbar.Action
+            icon="magnify"
+            onPress={() => setShowSearchBar(true)}
+          />
+        </>
       )}
-    </>
+    </Appbar.Header>
+    // {showSearchBar ? (
+    //   <TitleBarSearch setShowSearchBar={setShowSearchBar} />
+    // ) : (
+    //   <View style={[styles.container, { backgroundColor: theme.surface }]}>
+    //     <SafeAreaView style={styles.content}>
+    //       {props.back && (
+    //         <IconButton
+    //           style={{
+    //             justifyContent: "center",
+    //             marginVertical: "auto",
+    //             marginRight: 5,
+    //           }}
+    //           iconName="arrow-back"
+    //           size={24}
+    //           onPress={() => navigation.goBack()}
+    //         />
+    //       )}
+    //       <CustomText style={[styles.title, { color: theme.text_primary }]}>
+    //         {title}
+    //       </CustomText>
+    //       <View style={styles.icons_container}>
+    //         <View
+    //           style={[
+    //             styles.icons,
+    //             { maxWidth: Dimensions.get("window").width / 2 },
+    //           ]}
+    //         >
+    //           {search && (
+    //             <IconButton
+    //               style={styles.search_icon}
+    //               size={18}
+    //               iconName={showSearchBar ? "close" : "search"}
+    //               onPress={() => {
+    //                 setShowSearchBar(!showSearchBar);
+    //               }}
+    //             />
+    //           )}
+    //           {titleBarOptions}
+    //         </View>
+    //       </View>
+    //     </SafeAreaView>
+    //   </View>
+    // )}
   );
 };
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    flex: 1,
+    flexDirection: "row",
+  },
   content: {
     height: 60,
     marginTop: 20,
