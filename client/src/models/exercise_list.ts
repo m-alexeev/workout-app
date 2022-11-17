@@ -36,6 +36,7 @@ export const exercise_list: Array<Exercise> = new Array(
   new Exercise("Bench Press - Wide Grip", "Barbell", "Chest"),
   new Exercise("Cable Crossover", "Cable", "Chest"),
 
+  //Lets
   new Exercise("Box Jump", "Weighted Bodyweight", "Legs"),
   new Exercise("Box Squat", "Barbell", "Legs"),
   new Exercise("Bulgarian Split Squat", "Dumbbell", "Legs"),

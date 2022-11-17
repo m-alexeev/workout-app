@@ -5,7 +5,10 @@ import { User, UserToken } from "../types/auth.types";
 import {
   AuthAction,
   AuthActionType,
+  AuthLocalPayloadAction,
   AuthRehydateAction,
+  CREATE_FAIL,
+  CREATE_SUCCESS,
   LOGIN_FAIL,
   LOGIN_SUCCESS,
   LOGOUT,
@@ -16,7 +19,7 @@ import {
 } from "./auth.actiontypes";
 import { SET_MESSAGE, UpdateMessageAction } from "./messages.actiontypes";
 
-const getMessage = (error: any): string => {
+export const getMessage = (error: any): string => {
   return (
     (error.response && error.response.data && error.response.data.message) ||
     error.message ||
@@ -144,3 +147,27 @@ export const rehydrate = () => (dispatch: Dispatch<AuthRehydateAction>) => {
     }
   });
 };
+
+export const createLocalUser =
+  (user: {
+    first_name: string;
+    last_name: string;
+    height: number;
+    weight: number;
+  }) =>
+  (dispatch: Dispatch<AuthActionType>) => {
+    AuthService.createNewUser(user)
+      .then((user) => {
+        if (user) {
+          console.log('user created');
+          dispatch({
+            type: CREATE_SUCCESS,
+            payload: user,
+          });
+        } else {
+          dispatch({
+            type: CREATE_FAIL,
+          });
+        }
+      })
+  };

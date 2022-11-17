@@ -1,6 +1,6 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useState } from "react";
-import { Modal, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { ExercisesStackParamList } from "../../../types/navigation";
 import { TextInput, Text, useTheme, Button } from "react-native-paper";
 import {
@@ -30,13 +30,12 @@ export interface IExerciseModalProp {
 
 const ExerciseCreate: React.FC<IExerciseModalProp> = ({ navigation }) => {
   const theme = useTheme();
-
   const [form, setForm] = useState<IForm>({
     name: "",
     type: undefined,
     group: undefined,
   });
-
+  
   const handleNameChange = (text: string) => {
     setForm((prevState) => ({ ...prevState, name: text }));
   };
@@ -51,37 +50,63 @@ const ExerciseCreate: React.FC<IExerciseModalProp> = ({ navigation }) => {
 
   return (
     <DismissKeyboard>
-      <View style={{ backgroundColor: theme.colors.background, flex: 1 }}>
-        <Text variant="titleMedium">Create Exercise</Text>
-        <TextInput
-          onBlur={() => Keyboard.dismiss}
-          label="Name"
-          mode="outlined"
-          value={form.name}
-          onChangeText={(text) => handleNameChange(text)}
-        />
-        <ChipPicker
-          active={form.type}
-          header="Exercise Type"
-          setChip={handleTypeChange}
-          chips={exerciseTypeList}
-        ></ChipPicker>
-        <ChipPicker
-          active={form.group}
-          header="Muscle Group"
-          setChip={handleGroupChange}
-          chips={exerciseMuscleGroupList}
-        ></ChipPicker>
-        <Button
-          disabled={!form.group || !form.type || !form.name.length}
-          mode="contained"
-          onPress={() => {}}
-        >
-          Create
-        </Button>
+      <View
+        style={[styles.container, { backgroundColor: theme.colors.background }]}
+      >
+        <View style={styles.textInput}>
+          <TextInput
+            onBlur={() => Keyboard.dismiss}
+            label="Name"
+            mode="outlined"
+            value={form.name}
+            onChangeText={(text) => handleNameChange(text)}
+          />
+        </View>
+        <View style={styles.chips}>
+          <ChipPicker
+            active={form.type}
+            header="Exercise Type"
+            setChip={handleTypeChange}
+            chips={exerciseTypeList}
+          />
+        </View>
+        <View style={styles.chips}>
+          <ChipPicker
+            active={form.group}
+            header="Muscle Group"
+            setChip={handleGroupChange}
+            chips={exerciseMuscleGroupList}
+          />
+        </View>
+        <View style={styles.button}>
+          <Button
+            disabled={!form.group || !form.type || !form.name.length}
+            mode="contained"
+            onPress={() => {}}
+          >
+            Create
+          </Button>
+        </View>
       </View>
     </DismissKeyboard>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 10,
+  },
+  button: {
+    marginTop: 15,
+    marginHorizontal: 25,
+  },
+  chips: {
+    marginVertical: 5,
+  },
+  textInput: {
+    marginVertical: 10,
+  }
+});
 
 export default ExerciseCreate;

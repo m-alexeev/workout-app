@@ -4,10 +4,6 @@ import { filterReducer } from './reducers/filter.reducer';
 import { combineReducers } from 'redux';
 import { userReducer } from './reducers/user.reducer';
 import { messageReducer } from './reducers/message.reducer';
-import { UserState } from './types/auth.types';
-import { FilterActionTypes } from './actions/filter.actiontypes';
-
-
 
 
 const rootReducers = combineReducers({

@@ -11,7 +11,14 @@ export interface User {
     tokens?: UserToken
 }
 
+export interface UserObject {
+    first_name: string 
+    last_name: string
+    weight: number
+    height: number
+}
+
 export interface UserState {
     isLoggedIn: boolean
-    user: User | null
+    user:  UserObject | null
 }

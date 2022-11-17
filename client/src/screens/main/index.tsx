@@ -29,6 +29,7 @@ const MainStackScreen: React.FC<IMainStackInterface> = (props) => {
           shadowColor: theme.primary,
           borderTopWidth: 0,
         },
+        unmountOnBlur:true,
       }}
     >
       <MainBottomTabs.Screen

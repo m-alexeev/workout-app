@@ -1,0 +1,79 @@
+{
+  "exercises": [
+    {
+      "name": "Ab Wheel",
+      "category": "Weighted Bodyweight",
+      "muscleGroup": "Abs"
+    },
+    {
+      "name": "Bicycle Crunch",
+      "category": "Weighted Bodyweight",
+      "muscleGroup": "Abs"
+    },
+    {
+      "name": "Cable Crunch",
+      "category": "Machine",
+      "muscleGroup": "Abs"
+    },
+    {
+      "name": "Bench Dip",
+      "category": "Weighted Bodyweight",
+      "muscleGroup": "Arms"
+    },
+    {
+      "name": "Bench Press - Close Grip",
+      "category": "Barbell",
+      "muscleGroup": "Arms"
+    },
+    {
+      "name": "Bicep Curl",
+      "category": "Barbell",
+      "muscleGroup": "Arms"
+    },
+    {
+      "name": "Back Extension",
+      "category": "Weighted Bodyweight",
+      "muscleGroup": "Back"
+    },
+    {
+      "name": "Back Extension",
+      "category": "Machine",
+      "muscleGroup": "Back"
+    },
+    {
+      "name": "Bent Over One Arm Row",
+      "category": "Dumbbell",
+      "muscleGroup": "Back"
+    },
+    {
+      "name": "Around the World",
+      "category": "Dumbbell",
+      "muscleGroup": "Chest"
+    },
+    {
+      "name": "Bench Press",
+      "category": "Barbell",
+      "muscleGroup": "Chest"
+    },
+    {
+      "name": "Bench Press",
+      "category": "Cable",
+      "muscleGroup": "Chest"
+    },
+    {
+      "name": "Box Jump",
+      "category": "Weighted Bodyweight",
+      "muscleGroup": "Legs"
+    },
+    {
+      "name": "Box Squat",
+      "category": "Barbell",
+      "muscleGroup": "Legs"
+    },
+    {
+      "name": "Bulgarian Split Squat",
+      "category": "Dumbbell",
+      "muscleGroup": "Legs"
+    }
+  ]
+}

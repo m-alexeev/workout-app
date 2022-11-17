@@ -16,5 +16,6 @@ export interface Exercise {
 export type ExerciseFilterType = ExerciseMuscleGroup[] | ExerciseType []
 
 export interface ExerciseState { 
+  exercises: Exercise [],
   exerciseFilters: ExerciseFilterType;
 }

@@ -65,6 +65,7 @@ export type AuthStackParamList  = {
   Login: undefined, 
   Register: undefined,
   Logout: undefined,
+  LocalUser: undefined,
 }
 
 export type AuthScreenNavigationProp = NativeStackNavigationProp<AuthStackParamList>;
