@@ -1,5 +1,5 @@
 import { exerciseMuscleGroup, exerciseType } from "../types/exercise";
-import { Exercise } from "./exercise";
+import { Exercise } from "../redux/types/exercise.types";
 
 export const exercise_list: Array<Exercise> = new Array(
   // Abs 

@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, SectionList, StyleSheet } from "react-native";
+import {
+  SafeAreaView,
+  ScrollView,
+  SectionList,
+  StyleSheet,
+} from "react-native";
 import { ExercisesStackParamList } from "../../../types/navigation";
 import { exercise_list } from "../../../models/exercise_list";
-import ExerciseCard from "../../../components/organisms/ExerciseCard";
 import { useTheme } from "../../../contexts/theme";
 import { Exercise } from "../../../models/exercise";
-import CustomText from "../../../components/atoms/CustomText";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useSearch } from "../../../contexts/search";
+import { List, Text } from "react-native-paper";
+import ExerciseCard from "../../../components/organisms/ExerciseCard";
 
 type ExercisesScreenProp = NativeStackScreenProps<
   ExercisesStackParamList,
@@ -63,16 +68,15 @@ const ExercisesPage: React.FC<IExercisesPageProps> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }}>
-      {/*  */}
       <SectionList
         sections={filteredExercises}
         keyExtractor={(item, index) => item.getName() + index}
         ListHeaderComponent={() => (
-          <CustomText style={[styles.header, { color: theme.text_primary }]}>
+          <Text style={[styles.header, { color: theme.text_primary }]}>
             Exercises
-          </CustomText>
+          </Text>
         )}
-        ListEmptyComponent={() => <CustomText>No Exercises...</CustomText>}
+        ListEmptyComponent={() => <Text>No Exercises...</Text>}
         renderItem={({ item }) => (
           <ExerciseCard
             onPress={() =>
@@ -86,17 +90,17 @@ const ExercisesPage: React.FC<IExercisesPageProps> = ({ navigation }) => {
           />
         )}
         renderSectionHeader={({ section: { title } }) => (
-          <CustomText
+          <Text
             style={{
               color: theme.text_secondary,
-              fontSize: 12,
+              fontSize: 14,
               flex: 1,
               marginHorizontal: 20,
               marginVertical: 20,
             }}
           >
             {title}
-          </CustomText>
+          </Text>
         )}
       />
     </SafeAreaView>
