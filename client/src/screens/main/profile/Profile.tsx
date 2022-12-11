@@ -7,8 +7,8 @@ import CustomText from "../../../components/atoms/CustomText";
 import IconLink from "../../../components/molecules/IconLink";
 import ProfileTitle from "../../../components/organisms/ProfileTitle";
 import { useTheme } from "../../../contexts/theme";
-import { logout } from "../../../redux/actions/auth.actions";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+import { logout } from "../../../services/auth.service";
 import { ProfileStackParamList } from "../../../types/navigation";
 
 type ProfileScreenProp = NativeStackScreenProps<
@@ -24,7 +24,6 @@ const ProfileScreen: React.FC<IProfileScreenProps> = ({ navigation }) => {
   const [userInfo, setUserInfo] = useState({
     f_name: "",
     l_name: "",
-    email: "",
   });
 
   const { theme } = useTheme();
@@ -40,7 +39,6 @@ const ProfileScreen: React.FC<IProfileScreenProps> = ({ navigation }) => {
       setUserInfo({
         f_name: user.first_name,
         l_name: user.last_name,
-        email: user.email,
       });
     }
   }, [user]);
@@ -52,7 +50,6 @@ const ProfileScreen: React.FC<IProfileScreenProps> = ({ navigation }) => {
       <ProfileTitle
         f_name={userInfo.f_name}
         l_name={userInfo.l_name}
-        email={userInfo.email}
       ></ProfileTitle>
       <View style={styles.routeContainer}>
         <CustomText style={{ fontSize: 18, marginStart: 10 }}>

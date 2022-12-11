@@ -7,10 +7,9 @@ import ProfileCircle from "../molecules/ProfileCircle";
 export interface IProfileTitle {
   f_name: string;
   l_name: string;
-  email: string;
 }
 
-const ProfileTitle: React.FC<IProfileTitle> = ({ f_name, l_name, email }) => {
+const ProfileTitle: React.FC<IProfileTitle> = ({ f_name, l_name }) => {
   const { theme } = useTheme();
 
   const getInitials = (): string => {
@@ -28,7 +27,6 @@ const ProfileTitle: React.FC<IProfileTitle> = ({ f_name, l_name, email }) => {
       </View>
       <View style={styles.info}>
         <CustomText style={styles.name}>{f_name} {l_name}</CustomText>
-        <CustomText style={[styles.email, {color: theme.primary}]}>{email}</CustomText>
       </View>
     </View>
   );

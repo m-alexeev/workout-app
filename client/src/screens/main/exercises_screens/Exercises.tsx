@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from "react";
-import {
-  SafeAreaView,
-  ScrollView,
-  SectionList,
-  StyleSheet,
-} from "react-native";
+import { SafeAreaView, SectionList, StyleSheet } from "react-native";
 import { ExercisesStackParamList } from "../../../types/navigation";
-import { exercise_list } from "../../../models/exercise_list";
+
 import { useTheme } from "../../../contexts/theme";
-import { Exercise } from "../../../models/exercise";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useSearch } from "../../../contexts/search";
-import { List, Text } from "react-native-paper";
+import { Text } from "react-native-paper";
 import ExerciseCard from "../../../components/organisms/ExerciseCard";
+import { Exercise, exercise_list } from "../../../redux/types/exercise.types";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+import { fetchExercises } from "../../../services/exercise.service";
 
 type ExercisesScreenProp = NativeStackScreenProps<
   ExercisesStackParamList,
@@ -26,7 +23,7 @@ export interface IExercisesPageProps {
 const get_sections = (list: Array<Exercise>) => {
   return Object.values(
     list.reduce((acc, obj) => {
-      const firstLet = obj.getName()[0].toLocaleUpperCase();
+      const firstLet = obj.name[0];
       if (!acc[firstLet]) {
         acc[firstLet] = { title: firstLet, data: [obj] };
       } else {
@@ -43,17 +40,20 @@ const ExercisesPage: React.FC<IExercisesPageProps> = ({ navigation }) => {
   const [filteredExercises, setFilteredExercises] = useState(
     get_sections(exercise_list)
   );
+  const dispatch = useAppDispatch();
+  const exercises = useAppSelector((state) => state.exercises);
+
+  useEffect(() => {
+    dispatch(fetchExercises());
+  }, [])
 
   const filter = (query: string) => {
     if (query) {
       const filtered = exercise_list.filter((exercise) => {
         return (
-          exercise.getName().toUpperCase().startsWith(query.toUpperCase()) ||
-          exercise.getType().toUpperCase().startsWith(query.toUpperCase()) ||
-          exercise
-            .getMuscleGroup()
-            .toUpperCase()
-            .startsWith(query.toUpperCase())
+          exercise.name.toUpperCase().startsWith(query.toUpperCase()) ||
+          exercise.category.toUpperCase().startsWith(query.toUpperCase()) ||
+          exercise.body_part.toUpperCase().startsWith(query.toUpperCase())
         );
       });
       setFilteredExercises(get_sections(filtered));
@@ -70,7 +70,7 @@ const ExercisesPage: React.FC<IExercisesPageProps> = ({ navigation }) => {
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }}>
       <SectionList
         sections={filteredExercises}
-        keyExtractor={(item, index) => item.getName() + index}
+        keyExtractor={(item, index) => item.name + index}
         ListHeaderComponent={() => (
           <Text style={[styles.header, { color: theme.text_primary }]}>
             Exercises
@@ -81,12 +81,12 @@ const ExercisesPage: React.FC<IExercisesPageProps> = ({ navigation }) => {
           <ExerciseCard
             onPress={() =>
               navigation.navigate("ExerciseDetails", {
-                exerciseId: item.getName(),
+                exerciseId: item.name,
               })
             }
-            name={item.getName()}
-            type={item.getType()}
-            muscleGroup={item.getMuscleGroup()}
+            name={item.name}
+            type={item.category}
+            muscleGroup={item.body_part}
           />
         )}
         renderSectionHeader={({ section: { title } }) => (

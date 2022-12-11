@@ -1,57 +1,63 @@
-import {
-  AuthActionType,
-  LOGOUT,
-  REHYDRATE,
-  LOGIN_FAIL,
-  LOGIN_SUCCESS,
-  REGISTER_FAIL,
-  REGISTER_SUCCESS,
-  REHYDRATE_FAIL,
-  CREATE_SUCCESS,
-  CREATE_FAIL,
-} from "../actions/auth.actiontypes";
+import { ActionReducerMapBuilder, createSlice } from "@reduxjs/toolkit";
+import { createLocalUser, logout, rehydrate } from "../../services/auth.service";
 import { UserState } from "../types/auth.types";
 
 const initialUserState: UserState = {
   isLoggedIn: false,
   user: null,
+  status: 'idle',
+  error: "",
 };
 
-export function userReducer(
-  state: UserState = initialUserState,
-  action: AuthActionType
-): UserState {
-  switch (action.type) {
-    case CREATE_SUCCESS:
-      return {
-        ...state,
-        isLoggedIn: true,
-        user: action.payload,
-      };
-    case CREATE_FAIL:
-      return {
-        ...state,
-        isLoggedIn: false,
-        user: null,
-      };
-    case LOGOUT:
-      return {
-        ...state,
-        isLoggedIn: false,
-        user: null,
-      };
-    case REHYDRATE:
-      return {
-        ...state,
-        isLoggedIn: true,
-        user: action.payload,
-      };
-    case REHYDRATE_FAIL:
-      return {
-        ...state,
-        isLoggedIn: false,
-        user: null,
-      };
+const userSlice = createSlice({
+  name: "user", 
+  initialState: initialUserState, 
+  reducers: {},
+  extraReducers: (builder: ActionReducerMapBuilder<UserState>) => {
+    builder.addCase(createLocalUser.pending, (state) => {
+      state.status = 'loading'
+    })
+    .addCase(createLocalUser.fulfilled, (state, action) => {
+      state.status = 'succeeded'
+      state.isLoggedIn = true
+      state.user = action.payload
+    })
+    .addCase(createLocalUser.rejected, (state, action) => {
+      state.status = 'error'
+      state.isLoggedIn = false
+      state.user = null
+      state.error = action.error.message
+    })
+    .addCase(rehydrate.pending, (state) => {
+      state.status = 'loading'
+    })
+    .addCase(rehydrate.fulfilled, (state, action) => {
+      state.status = 'succeeded'
+      state.isLoggedIn = true
+      state.user = action.payload
+    })
+    .addCase(rehydrate.rejected, (state, action) => {
+      state.status = 'error'
+      state.isLoggedIn = false
+      state.user = null
+      state.error = action.error.message
+    })
+    .addCase(logout.pending, (state) => {
+      state.status = 'loading'
+    })
+    .addCase(logout.fulfilled, (state) => {
+      state.status = 'succeeded'
+      state.isLoggedIn = true
+      state.user = null
+    })
+    .addCase(logout.rejected, (state, action) => {
+      state.status = 'error'
+      state.isLoggedIn = false
+      state.user = null
+      state.error = action.error.message
+    })
   }
-  return initialUserState;
-}
+});
+
+export default userSlice.reducer;
+

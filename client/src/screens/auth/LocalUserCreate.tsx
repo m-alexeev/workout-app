@@ -6,7 +6,7 @@ import { useAppDispatch } from "../../redux/hooks";
 import { Keyboard, SafeAreaView, StyleSheet, View } from "react-native";
 import { Button, Text, TextInput, useTheme } from "react-native-paper";
 import DismissKeyboard from "../../components/organisms/DismissKeyboard";
-import { createLocalUser } from "../../redux/actions/auth.actions";
+import { createLocalUser } from "../../services/auth.service";
 
 type LocalUserCreateNavProp = CompositeNavigationProp<
   NativeStackNavigationProp<RootStackParamList, "AuthStackRoute">,
@@ -79,6 +79,7 @@ const LocalUserCreateScreen: React.FC<ILocalUserCreateProps> = ({
       setLoading(false);
     }
   };
+  
 
   const handleError = (
     error: string | undefined,

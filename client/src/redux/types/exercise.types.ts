@@ -9,9 +9,9 @@ export interface Exercise {
 }
 
 export interface ExerciseState {
-  isLoading: false;
+  status: "idle" | 'loading' | "succeeded" | "error",
   exercises: Exercise[];
-  filter: Exercise[];
+  error: string,
 }
 
 

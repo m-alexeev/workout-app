@@ -7,7 +7,7 @@ import { useFonts } from "expo-font";
 import { type } from "../theme/fonts";
 import LoadingScreen from "./main/Loading";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import {rehydrate} from '../redux/actions/auth.actions';
+import { rehydrate } from "../services/auth.service";
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 

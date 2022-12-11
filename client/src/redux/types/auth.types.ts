@@ -21,4 +21,6 @@ export interface UserObject {
 export interface UserState {
     isLoggedIn: boolean
     user:  UserObject | null
+    status: "idle" | 'loading' | "succeeded" | "error",
+    error: string | undefined
 }

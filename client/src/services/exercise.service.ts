@@ -2,8 +2,27 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { Exercise } from "../redux/types/exercise.types";
 import authHeader from "./auth-header";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+
+
+
 
 const API_URL = "http://192.168.0.16:5000/exercises";
+
+
+export const fetchExercises = createAsyncThunk('exercise/fetchExercises', () => {
+    AsyncStorage.getItem("exercises").then((response) => {
+      if (response != null){
+        const parsedExercises = JSON.parse(response);
+        const exerciseList: Exercise[] = Object.values(parsedExercises); 
+        return exerciseList;
+      }
+    }).catch((error) => {
+      console.log(error);
+      return [];
+    });
+});
+
 
 class ExerciseService {
   getAllExercises() {
@@ -53,4 +72,4 @@ class ExerciseService {
   }
 }
 
-export default new ExerciseService();
+// export default new ExerciseService();

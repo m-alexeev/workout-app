@@ -9,7 +9,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AuthStackParamList, RootStackParamList } from "../../types/navigation";
 import { CompositeNavigationProp } from "@react-navigation/native";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { login } from "../../redux/actions/auth.actions";
+// import { login } from "../../redux/actions/auth.actions";
 import { Button } from "react-native-paper";
 
 type LoginScreenNavProp = CompositeNavigationProp<
@@ -63,9 +63,7 @@ const LoginScreen: React.FC<ILoginScreenProps> = ({ navigation }) => {
     if (valid) {
       setLoading(true);
       //Login
-      dispatch(login(inputs.email, inputs.password)).catch(() => {
-        setLoading(false);
-      });
+
       setLoading(false);
     }
   };
