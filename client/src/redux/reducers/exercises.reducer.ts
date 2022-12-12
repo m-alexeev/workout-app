@@ -7,6 +7,7 @@ const initialExerciseState = {
   exercises: exercise_list,
   status: "idle",
   error: "",
+  need_update: true,
 } as ExerciseState;
 
 const exerciseSlice = createSlice({
@@ -17,10 +18,11 @@ const exerciseSlice = createSlice({
     builder.addCase(fetchExercises.pending, (state) => {
       state.status = 'loading';
     })
-    .addCase(fetchExercises.fulfilled, (state) => {
+    .addCase(fetchExercises.fulfilled, (state, action) => {
       state.status = 'succeeded';
-      state.exercises = exercise_list;
+      state.exercises = exercise_list.concat(action.payload);
       state.error = '';
+      state.need_update = false;
     })
     .addCase(fetchExercises.rejected, (state, action) => {
       state.status = 'error';

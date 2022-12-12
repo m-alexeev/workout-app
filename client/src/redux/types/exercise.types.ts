@@ -12,6 +12,7 @@ export interface ExerciseState {
   status: "idle" | 'loading' | "succeeded" | "error",
   exercises: Exercise[];
   error: string,
+  need_update: boolean;
 }
 
 

@@ -2,7 +2,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { ExercisesStackParamList } from "../../../types/navigation";
-import { TextInput, Text, useTheme, Button } from "react-native-paper";
+import { TextInput, useTheme, Button } from "react-native-paper";
 import {
   exerciseMuscleGroup,
   exerciseType,
@@ -12,13 +12,17 @@ import {
 import ChipPicker from "../../../components/organisms/ChipPicker";
 import { Keyboard } from "react-native";
 import DismissKeyboard from "../../../components/organisms/DismissKeyboard";
+import { useAppDispatch } from "../../../redux/hooks";
+import { createExercise } from "../../../services/exercise.service";
+import { Exercise } from "../../../redux/types/exercise.types";
+import { type } from "../../../theme/fonts";
 
 type ExerciseModalNavProp = NativeStackNavigationProp<
   ExercisesStackParamList,
   "ExerciseCreate"
 >;
 
-interface IForm {
+export interface IExerciseForm {
   name: string;
   type?: exerciseType;
   group?: exerciseMuscleGroup;
@@ -30,23 +34,30 @@ export interface IExerciseModalProp {
 
 const ExerciseCreate: React.FC<IExerciseModalProp> = ({ navigation }) => {
   const theme = useTheme();
-  const [form, setForm] = useState<IForm>({
+  const dispatch = useAppDispatch();
+  const [form, setForm] = useState<IExerciseForm>({
     name: "",
     type: undefined,
     group: undefined,
   });
   
-  const handleNameChange = (text: string) => {
-    setForm((prevState) => ({ ...prevState, name: text }));
-  };
+  const submit = () => {
+    if (form.type && form.group){
+      const exercise: Exercise = {
+        id: -1,
+        name: form.name,
+        category: form.type,
+        body_part: form.group,
+        canDelete: true,
+      }
+      dispatch(createExercise(exercise));
+    }
+  }
 
-  const handleTypeChange = (selection: string) => {
-    setForm((prevState) => ({ ...prevState, type: selection }));
-  };
+  const handleInput = (text: string, field: 'name' | "type" | "group") => {
+    setForm((prevState) => ({...prevState, [field]: text}));
+  }
 
-  const handleGroupChange = (selection: string) => {
-    setForm((prevState) => ({ ...prevState, group: selection }));
-  };
 
   return (
     <DismissKeyboard>
@@ -59,14 +70,14 @@ const ExerciseCreate: React.FC<IExerciseModalProp> = ({ navigation }) => {
             label="Name"
             mode="outlined"
             value={form.name}
-            onChangeText={(text) => handleNameChange(text)}
+            onChangeText={(text) => handleInput(text, 'name')}
           />
         </View>
         <View style={styles.chips}>
           <ChipPicker
             active={form.type}
             header="Exercise Type"
-            setChip={handleTypeChange}
+            setChip={(input) => handleInput(input, 'type')}
             chips={exerciseTypeList}
           />
         </View>
@@ -74,7 +85,7 @@ const ExerciseCreate: React.FC<IExerciseModalProp> = ({ navigation }) => {
           <ChipPicker
             active={form.group}
             header="Muscle Group"
-            setChip={handleGroupChange}
+            setChip={(input) => handleInput(input, 'group')}
             chips={exerciseMuscleGroupList}
           />
         </View>
@@ -82,7 +93,7 @@ const ExerciseCreate: React.FC<IExerciseModalProp> = ({ navigation }) => {
           <Button
             disabled={!form.group || !form.type || !form.name.length}
             mode="contained"
-            onPress={() => {}}
+            onPress={submit}
           >
             Create
           </Button>

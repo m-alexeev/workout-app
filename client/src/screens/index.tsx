@@ -21,7 +21,8 @@ const RootStackScreen: React.FC = () => {
     dispatch(rehydrate());
   },[])
 
-  if (!fontsLoaded) {
+
+  if (!fontsLoaded || user.status === 'loading') {
     return <LoadingScreen />;
   }
 

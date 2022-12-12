@@ -44,8 +44,10 @@ const ExercisesPage: React.FC<IExercisesPageProps> = ({ navigation }) => {
   const exercises = useAppSelector((state) => state.exercises);
 
   useEffect(() => {
-    dispatch(fetchExercises());
-  }, [])
+    if (exercises.need_update) {
+      dispatch(fetchExercises());
+    }
+  }, [exercises]);
 
   const filter = (query: string) => {
     if (query) {
