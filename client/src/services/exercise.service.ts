@@ -3,6 +3,7 @@ import axios from "axios";
 import { Exercise } from "../redux/types/exercise.types";
 import authHeader from "./auth-header";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { flattenExercises } from "../screens/main/exercises_screens/utils";
 
 const API_URL = "http://192.168.0.16:5000/exercises";
 
@@ -25,16 +26,6 @@ export const fetchExercises = createAsyncThunk(
   }
 );
 
-
-const flattenExercises = (exercisesObj: {[id: number]: Exercise}): Exercise[] => {
-  const list: Exercise[] = []; 
-  for (const exercise of Object.values(exercisesObj)){
-    if (exercise.canDelete){
-      list.push(exercise);
-    }
-  }
-  return list;
-} 
 
 export const createExercise = createAsyncThunk(
   "exercise/createExercise",

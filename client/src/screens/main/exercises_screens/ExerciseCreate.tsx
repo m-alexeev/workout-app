@@ -43,6 +43,8 @@ const ExerciseCreate: React.FC<IExerciseModalProp> = ({ navigation }) => {
   
   const submit = () => {
     if (form.type && form.group){
+
+      // Create new exercise
       const exercise: Exercise = {
         id: -1,
         name: form.name,
@@ -51,6 +53,9 @@ const ExerciseCreate: React.FC<IExerciseModalProp> = ({ navigation }) => {
         canDelete: true,
       }
       dispatch(createExercise(exercise));
+
+      // Route back to Exercise Screen
+      navigation.goBack();
     }
   }
 

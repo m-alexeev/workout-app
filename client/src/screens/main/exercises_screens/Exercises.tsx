@@ -7,9 +7,10 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useSearch } from "../../../contexts/search";
 import { Text } from "react-native-paper";
 import ExerciseCard from "../../../components/organisms/ExerciseCard";
-import { Exercise, exercise_list } from "../../../redux/types/exercise.types";
+import { exercise_list } from "../../../redux/types/exercise.types";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { fetchExercises } from "../../../services/exercise.service";
+import { get_sections } from "./utils";
 
 type ExercisesScreenProp = NativeStackScreenProps<
   ExercisesStackParamList,
@@ -20,45 +21,25 @@ export interface IExercisesPageProps {
   navigation: ExercisesScreenProp["navigation"];
 }
 
-const get_sections = (list: Array<Exercise>) => {
-  return Object.values(
-    list.reduce((acc, obj) => {
-      const firstLet = obj.name[0].toUpperCase();
-      if (!acc[firstLet]) {
-        acc[firstLet] = { title: firstLet, data: [obj] };
-      } else {
-        acc[firstLet].data.push(obj);
-      }
-      return acc;
-    }, {} as { [letter: string]: { title: string; data: Array<Exercise> } })
-  );
-};
-
 const ExercisesPage: React.FC<IExercisesPageProps> = ({ navigation }) => {
   const { searchQuery } = useSearch();
   const { theme } = useTheme();
 
   const dispatch = useAppDispatch();
-  const exercises = useAppSelector((state) => state.exercises);
+  const exerciseState = useAppSelector((state) => state.exercises);
 
   const [filteredExercises, setFilteredExercises] = useState(
-    get_sections(exercises.exercises)
+    get_sections(exerciseState.exercises)
   );
-  
-  useEffect(() => {
 
-    if (exercises.need_update && exercises.status !== "loading") {
+  useEffect(() => {
+    if (exerciseState.need_update && exerciseState.status !== "loading") {
       dispatch(fetchExercises());
     }
-    if (exercises.status === 'succeeded'){
-      setFilteredExercises(get_sections(exercises.exercises));
+    if (exerciseState.status === "succeeded") {
+      setFilteredExercises(get_sections(exerciseState.exercises));
     }
-
-  }, [exercises]);
-
-  useEffect(() => {
-    console.info(filteredExercises);
-  }, [filteredExercises]);
+  }, [exerciseState]);
 
   const filter = (query: string) => {
     if (query) {
