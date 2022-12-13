@@ -44,7 +44,7 @@ const ExercisesPage: React.FC<IExercisesPageProps> = ({ navigation }) => {
   const exercises = useAppSelector((state) => state.exercises);
 
   useEffect(() => {
-    if (exercises.need_update) {
+    if (exercises.need_update && exercises.status !== "loading") {
       dispatch(fetchExercises());
     }
   }, [exercises]);

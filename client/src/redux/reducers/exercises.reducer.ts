@@ -1,7 +1,7 @@
 import { ActionReducerMapBuilder, createSlice } from "@reduxjs/toolkit";
 
 import { ExerciseState, exercise_list } from "../types/exercise.types";
-import { fetchExercises } from "../../services/exercise.service";
+import { createExercise, fetchExercises } from "../../services/exercise.service";
 
 const initialExerciseState = {
   exercises: exercise_list,
@@ -28,6 +28,15 @@ const exerciseSlice = createSlice({
       state.status = 'error';
       state.exercises = exercise_list;
       state.error = action.error.message || "";
+    })
+    .addCase(createExercise.pending, (state)=> {
+      state.status = 'loading';
+    })
+    .addCase(createExercise, (state, action)=>{
+      state.status = 'succeeded';
+      state.exercises = exercise_list.concat(action.payload);
+      state.error = '';
+      state.need_update = true;
     })
   },
 })
