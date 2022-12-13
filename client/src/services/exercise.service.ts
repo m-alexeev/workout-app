@@ -49,7 +49,6 @@ export const createExercise = createAsyncThunk(
       const stringifiedExercises = JSON.stringify(exercises);
       await AsyncStorage.setItem("exercises", stringifiedExercises);
       
-      console.info('Exercise List Overwritten');
       return flattenExercises(exercises);
 
     } catch (error) {
