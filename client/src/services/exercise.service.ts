@@ -38,13 +38,14 @@ export const createExercise = createAsyncThunk(
         exercises = JSON.parse(savedItems);
         exercise.id = Math.max(
           ...Object.keys(exercises).map((value) => parseInt(value))
-        );
+        ) + 1;
         exercise.canDelete = true;
       } else {
         exercise.id = 1;
       }
       // Overwrite exercise List
       exercises[exercise.id] = exercise;
+ 
       const stringifiedExercises = JSON.stringify(exercises);
       await AsyncStorage.setItem("exercises", stringifiedExercises);
       
