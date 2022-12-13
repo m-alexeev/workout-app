@@ -23,7 +23,7 @@ export interface IExercisesPageProps {
 const get_sections = (list: Array<Exercise>) => {
   return Object.values(
     list.reduce((acc, obj) => {
-      const firstLet = obj.name[0];
+      const firstLet = obj.name[0].toUpperCase();
       if (!acc[firstLet]) {
         acc[firstLet] = { title: firstLet, data: [obj] };
       } else {
@@ -37,17 +37,28 @@ const get_sections = (list: Array<Exercise>) => {
 const ExercisesPage: React.FC<IExercisesPageProps> = ({ navigation }) => {
   const { searchQuery } = useSearch();
   const { theme } = useTheme();
-  const [filteredExercises, setFilteredExercises] = useState(
-    get_sections(exercise_list)
-  );
+
   const dispatch = useAppDispatch();
   const exercises = useAppSelector((state) => state.exercises);
 
+  const [filteredExercises, setFilteredExercises] = useState(
+    get_sections(exercises.exercises)
+  );
+  
   useEffect(() => {
+
     if (exercises.need_update && exercises.status !== "loading") {
       dispatch(fetchExercises());
     }
+    if (exercises.status === 'succeeded'){
+      setFilteredExercises(get_sections(exercises.exercises));
+    }
+
   }, [exercises]);
+
+  useEffect(() => {
+    console.info(filteredExercises);
+  }, [filteredExercises]);
 
   const filter = (query: string) => {
     if (query) {

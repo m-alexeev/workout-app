@@ -25,6 +25,17 @@ export const fetchExercises = createAsyncThunk(
   }
 );
 
+
+const flattenExercises = (exercisesObj: {[id: number]: Exercise}): Exercise[] => {
+  const list: Exercise[] = []; 
+  for (const exercise of Object.values(exercisesObj)){
+    if (exercise.canDelete){
+      list.push(exercise);
+    }
+  }
+  return list;
+} 
+
 export const createExercise = createAsyncThunk(
   "exercise/createExercise",
   async (exercise: Exercise) => {
@@ -37,6 +48,7 @@ export const createExercise = createAsyncThunk(
         exercise.id = Math.max(
           ...Object.keys(exercises).map((value) => parseInt(value))
         );
+        exercise.canDelete = true;
       } else {
         exercise.id = 1;
       }
@@ -44,10 +56,13 @@ export const createExercise = createAsyncThunk(
       exercises[exercise.id] = exercise;
       const stringifiedExercises = JSON.stringify(exercises);
       await AsyncStorage.setItem("exercises", stringifiedExercises);
-      console.log('Exercise List Overwritten');
+      
+      console.info('Exercise List Overwritten');
+      return flattenExercises(exercises);
+
     } catch (error) {
-      console.log(error);
-      return undefined;
+      console.error(error);
+      return [];
     }
   }
 );
